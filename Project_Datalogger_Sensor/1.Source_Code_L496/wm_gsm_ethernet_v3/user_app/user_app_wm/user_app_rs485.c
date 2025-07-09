@@ -42,11 +42,12 @@ Struct_Sensor_EC            sSensor_EC={0};
 Struct_Sensor_Clo           sSensor_Clo={0};
 Struct_Sensor_Turbidity     sSensor_Turbidity={0};
 Struct_Data_Sensor_Measure  sDataSensorMeasure = {0};
+Struct_Hanlde_RS485         sHandleRs485 = {0};
 
 int16_t aPH_ZERO_CALIB[2] = {700, 686};
 int16_t aPH_SLOPE_CALIB[5] = {168, 401, 918, 1010, 1245};
 
-int16_t Const_PH_Compensation_Chlorine = 0;
+int16_t Const_Temp_Compensation_Chlorine = 0;
 /*========================Function Handle========================*/
 static uint8_t fevent_rs485_entry(uint8_t event)
 {
@@ -198,9 +199,9 @@ static uint8_t fevent_rs485_receive_complete(uint8_t event)
 
 static uint8_t fevent_rs485_wait_calib(uint8_t event)
 {
-    if(sDataSensorMeasure.State_Wait_Calib != _STATE_CALIB_DONE)
+    if(sHandleRs485.State_Wait_Calib != _STATE_CALIB_DONE)
     {
-        sDataSensorMeasure.State_Wait_Calib = _STATE_CALIB_ERROR;
+        sHandleRs485.State_Wait_Calib = _STATE_CALIB_ERROR;
     }
     return 1;
 }
@@ -319,7 +320,7 @@ void Handle_State_SS_pH(uint8_t KindRecv, uint8_t KindDetect)
             sSensor_pH.State_Connect = _SENSOR_CONNECT;
             
             if(KindRecv == _RS485_SS_PH_OPERA)
-              sDataSensorMeasure.State_Recv_pH = 1;
+              sHandleRs485.State_Recv_pH = 1;
           }
           else
           {
@@ -345,7 +346,7 @@ void Handle_State_SS_pH(uint8_t KindRecv, uint8_t KindDetect)
         sSensor_pH.sSlope_Calib.Value = 0;
         
         sSensor_pH.Measure_AD = 0;
-        sDataSensorMeasure.State_Recv_pH = 0;
+        sHandleRs485.State_Recv_pH = 0;
     }
 }
 
@@ -374,12 +375,12 @@ void Handle_Data_Trans_SS_Clo(sData *sFrame, uint8_t KindTrans)
             
 //            ph_Send_f = Handle_int32_To_Float_Scale(796, 0xFE); // Khong bu pH cho gia tri Clo du
                    
-            Const_PH_Compensation_Chlorine_f = Handle_int32_To_Float_Scale(Const_PH_Compensation_Chlorine, 0xFE);
+            Const_PH_Compensation_Chlorine_f = Handle_int32_To_Float_Scale(Const_Temp_Compensation_Chlorine, 0xFE);
             
             if(ph_Send_f  > 7)
             {
                 ph_Send_f_stamp = (ph_Send_f - 7)/2;
-                ph_Send_f = (ph_Send_f - 7)/(Const_PH_Compensation_Chlorine_f - ph_Send_f_stamp) + 7;
+                ph_Send_f = (ph_Send_f - 7)/(2 - ph_Send_f_stamp) + 7;
             }
             
 //            if(ph_Send_f  > 7)
@@ -396,8 +397,8 @@ void Handle_Data_Trans_SS_Clo(sData *sFrame, uint8_t KindTrans)
             ModRTU_Master_Write_Frame(sFrame, ID_DEFAULT_SS_CLO, 0x10, 0x0026, 2, aData);
             break;
             
-        case _RS485_SS_CLO_PH:
-            ModRTU_Master_Read_Frame(sFrame, ID_DEFAULT_SS_CLO, 0x03, 0x0026, 0x02);
+        case _RS485_SS_CLO_READ_CURRENT:
+            ModRTU_Master_Read_Frame(sFrame, ID_DEFAULT_SS_CLO, 0x03, 0x0005, 0x02);
             break;
             
         case _RS485_SS_CLO_OPERA:
@@ -406,7 +407,8 @@ void Handle_Data_Trans_SS_Clo(sData *sFrame, uint8_t KindTrans)
      
         //Trans Calib
         case _RS485_SS_CLO_CALIB_READ_AD:
-            ModRTU_Master_Read_Frame(sFrame, ID_DEFAULT_SS_CLO, 0x03, 0x0066, 0x01);
+//            ModRTU_Master_Read_Frame(sFrame, ID_DEFAULT_SS_CLO, 0x03, 0x0066, 0x01);
+            ModRTU_Master_Read_Frame(sFrame, ID_DEFAULT_SS_CLO, 0x03, 0x0005, 0x02);
             break;
             
         case _RS485_SS_CLO_CALIB_READ_SOLUTION:
@@ -437,35 +439,62 @@ void Handle_Data_Recv_SS_Clo(sData sDataRS485, uint8_t KindRecv)
 {
     uint16_t Pos = 0;
     uint32_t Stamp_Hex = 0;
+    
+    float test_1 = 0;
+    
     switch(KindRecv)
     {
         //Recv Opera
         case  _RS485_SS_CLO_SEND_PH:
           break;
       
-        case _RS485_SS_CLO_PH:
+        case _RS485_SS_CLO_READ_CURRENT:
           Pos = 3;
-          
+            
           Stamp_Hex = Read_Register_Rs485(sDataRS485.Data_a8, &Pos, 4);
-          sSensor_Clo.sPH.Value =  Handle_HexFloat_To_Int32_Round(Stamp_Hex, sSensor_Clo.sPH.Scale);
+          sConvertChlorine.Measure_AD =  Handle_HexFloat_To_Int32_Round(Stamp_Hex, 0xFE);
+          
           break;
+//          Pos = 3;
+//          
+//          Stamp_Hex = Read_Register_Rs485(sDataRS485.Data_a8, &Pos, 4);
+//          sSensor_Clo.sPH.Value =  Handle_HexFloat_To_Int32_Round(Stamp_Hex, sSensor_Clo.sPH.Scale);
+//          break;
           
         case _RS485_SS_CLO_OPERA:
           Pos = 3;
             
           Stamp_Hex = Read_Register_Rs485(sDataRS485.Data_a8, &Pos, 4);
           sSensor_Clo.sClo_Value.Value =  Handle_HexFloat_To_Int32_Round(Stamp_Hex, sSensor_Clo.sClo_Value.Scale);
-          
+
           Stamp_Hex = Read_Register_Rs485(sDataRS485.Data_a8, &Pos, 4);
           sSensor_Clo.sTemperature_Value.Value =  Handle_HexFloat_To_Int32_Round(Stamp_Hex, sSensor_Clo.sTemperature_Value.Scale);
+          
+          //chuyen doi du lieu
+          test_1 = Chlorine_Compensation_pH(sConvertChlorine.Measure_AD, sSensor_pH.sPH_Value.Value, sSensor_Clo.sTemperature_Value.Value);
+          
+          sConvertChlorine.sClo_Du.Value = (int16_t)(test_1*100);
+          
+          if(sConvertChlorine.sClo_Du.Value < 0)
+            sConvertChlorine.sClo_Du.Value = 0;
+          
+          sSensor_Clo.sClo_Value.Value = sConvertChlorine.sClo_Du.Value;
           break;
           
         //Recv Calib
         case _RS485_SS_CLO_CALIB_READ_AD:
+//          Pos = 3;
+//          
+//          Stamp_Hex = Read_Register_Rs485(sDataRS485.Data_a8, &Pos, 2);
+//          sSensor_Clo.Measure_AD =  Stamp_Hex;
           Pos = 3;
+            
+          Stamp_Hex = Read_Register_Rs485(sDataRS485.Data_a8, &Pos, 4);
+          sConvertChlorine.Measure_AD =  Handle_HexFloat_To_Int32_Round(Stamp_Hex, 0xFE);
           
-          Stamp_Hex = Read_Register_Rs485(sDataRS485.Data_a8, &Pos, 2);
-          sSensor_Clo.Measure_AD =  Stamp_Hex;
+          test_1 = Chlorine_Compensation_pH(sConvertChlorine.Measure_AD, sSensor_pH.sPH_Value.Value, sSensor_Clo.sTemperature_Value.Value);
+          
+          sConvertChlorine.sClo_Du.Value = (int16_t)(test_1*100);
           break;
           
         case _RS485_SS_CLO_CALIB_READ_SOLUTION:
@@ -491,7 +520,7 @@ void Handle_State_SS_Clo(uint8_t KindRecv, uint8_t KindDetect)
     switch(KindRecv)
     {
         case _RS485_SS_CLO_SEND_PH:
-        case _RS485_SS_CLO_PH:
+        case _RS485_SS_CLO_READ_CURRENT:
         case _RS485_SS_CLO_OPERA:  
         case _RS485_SS_CLO_CALIB_READ_AD:
         case _RS485_SS_CLO_CALIB_READ_SOLUTION:
@@ -505,8 +534,8 @@ void Handle_State_SS_Clo(uint8_t KindRecv, uint8_t KindDetect)
              
              if(KindRecv == _RS485_SS_CLO_OPERA)
              {
-                 sDataSensorMeasure.State_Recv_Clo = 1;
-                 sDataSensorMeasure.State_Recv_Temperature = 1;
+                 sHandleRs485.State_Recv_Clo = 1;
+                 sHandleRs485.State_Recv_Temperature = 1;
              }
           }
           else
@@ -536,8 +565,8 @@ void Handle_State_SS_Clo(uint8_t KindRecv, uint8_t KindDetect)
     
         sSensor_Clo.Measure_AD = 0;
         
-        sDataSensorMeasure.State_Recv_Clo = 0;
-        sDataSensorMeasure.State_Recv_Temperature = 0;
+        sHandleRs485.State_Recv_Clo = 0;
+        sHandleRs485.State_Recv_Temperature = 0;
     }
 }
 
@@ -642,8 +671,8 @@ void Handle_State_SS_EC(uint8_t KindRecv, uint8_t KindDetect)
              
              if(KindRecv == _RS485_SS_EC_OPERA)
              {
-                sDataSensorMeasure.State_Recv_Salinity = 1;
-                sDataSensorMeasure.State_Recv_EC = 1;
+                sHandleRs485.State_Recv_Salinity = 1;
+                sHandleRs485.State_Recv_EC = 1;
              }
           }
           else
@@ -674,8 +703,8 @@ void Handle_State_SS_EC(uint8_t KindRecv, uint8_t KindDetect)
         sSensor_EC.sConductivity_Const.Value = 0;
         sSensor_EC.sConductivity_Calib.Value = 0;
         
-        sDataSensorMeasure.State_Recv_Salinity = 0;
-        sDataSensorMeasure.State_Recv_EC = 0;
+        sHandleRs485.State_Recv_Salinity = 0;
+        sHandleRs485.State_Recv_EC = 0;
     }
 }
 
@@ -833,7 +862,7 @@ void Handle_State_SS_Turbidity(uint8_t KindRecv, uint8_t KindDetect)
             
             if(KindRecv  == _RS485_SS_TURBIDITY_OPERA)
             {
-                sDataSensorMeasure.State_Recv_NTU = 1;
+                sHandleRs485.State_Recv_NTU = 1;
             }
           }
           else
@@ -869,7 +898,7 @@ void Handle_State_SS_Turbidity(uint8_t KindRecv, uint8_t KindDetect)
         
         sSensor_Turbidity.Measure_AD= 0;
         
-        sDataSensorMeasure.State_Recv_NTU = 0;
+        sHandleRs485.State_Recv_NTU = 0;
     }
 }
 
@@ -917,6 +946,8 @@ void Handle_Data_Measure(uint8_t KindRecv)
             
             if(sDataSensorMeasure.spH_Water.Value + sOffsetMeasure.spH_Water.Value >= 0)
                 sDataSensorMeasure.spH_Water.Value += sOffsetMeasure.spH_Water.Value;
+            
+            sDataSensorMeasure.spH_Water_Filter.Value = Filter_pH(sDataSensorMeasure.spH_Water.Value, sDataSensorMeasure.spH_Water.Scale);
           break;
           
         case _RS485_SS_CLO_OPERA:
@@ -932,6 +963,9 @@ void Handle_Data_Measure(uint8_t KindRecv)
 
             if(sDataSensorMeasure.sTemperature.Value + sOffsetMeasure.sTemperature.Value >= 0)
                 sDataSensorMeasure.sTemperature.Value += sOffsetMeasure.sTemperature.Value;
+            
+            sDataSensorMeasure.sClo_Du_Filter.Value = Filter_CloDu(sDataSensorMeasure.sClo_Du.Value, sDataSensorMeasure.sClo_Du.Scale);
+            sDataSensorMeasure.sTemperature_Filter.Value = Filter_Temperature(sDataSensorMeasure.sTemperature.Value, sDataSensorMeasure.sTemperature.Scale);
           break;
           
         case _RS485_SS_EC_OPERA:
@@ -946,6 +980,9 @@ void Handle_Data_Measure(uint8_t KindRecv)
             
             if(sDataSensorMeasure.sSalinity.Value + sOffsetMeasure.sSalinity.Value >= 0)
                 sDataSensorMeasure.sSalinity.Value += sOffsetMeasure.sSalinity.Value;
+            
+            sDataSensorMeasure.sSalinity_Filter.Value = Filter_Salinity(sDataSensorMeasure.sSalinity.Value, sDataSensorMeasure.sSalinity.Scale);
+            sDataSensorMeasure.sEC_Filter.Value = Filter_EC(sDataSensorMeasure.sEC.Value, sDataSensorMeasure.sEC.Scale);
           break;
           
         case _RS485_SS_TURBIDITY_OPERA:
@@ -955,6 +992,8 @@ void Handle_Data_Measure(uint8_t KindRecv)
             
             if(sDataSensorMeasure.sNTU.Value + sOffsetMeasure.sNTU.Value >= 0)
                 sDataSensorMeasure.sNTU.Value += sOffsetMeasure.sNTU.Value;
+            
+            sDataSensorMeasure.sNTU_Filter.Value = Filter_Turbidity(sDataSensorMeasure.sNTU.Value, sDataSensorMeasure.sNTU.Scale);
           break;
           
         default:
@@ -964,31 +1003,37 @@ void Handle_Data_Measure(uint8_t KindRecv)
     if(sSensor_pH.State_Connect == _SENSOR_DISCONNECT)
     {
         sDataSensorMeasure.spH_Water.Value = 0;
+        sDataSensorMeasure.spH_Water_Filter.Value = Filter_pH(sDataSensorMeasure.spH_Water.Value, sDataSensorMeasure.spH_Water.Scale);
     }
     
     if(sSensor_Clo.State_Connect == _SENSOR_DISCONNECT)
     {
         sDataSensorMeasure.sClo_Du.Value = 0;
+        sDataSensorMeasure.sClo_Du_Filter.Value = Filter_CloDu(sDataSensorMeasure.sClo_Du.Value, sDataSensorMeasure.sClo_Du.Scale);
     }
     
     if(sSensor_Clo.State_Connect == _SENSOR_DISCONNECT)
     {
         sDataSensorMeasure.sTemperature.Value = 0;
+        sDataSensorMeasure.sTemperature_Filter.Value = Filter_Temperature(sDataSensorMeasure.sTemperature.Value, sDataSensorMeasure.sTemperature.Scale);
     }
     
     if(sSensor_EC.State_Connect == _SENSOR_DISCONNECT)
     {
         sDataSensorMeasure.sEC.Value = 0;
+        sDataSensorMeasure.sEC_Filter.Value = Filter_EC(sDataSensorMeasure.sEC.Value, sDataSensorMeasure.sEC.Scale);
     }
     
     if(sSensor_EC.State_Connect == _SENSOR_DISCONNECT)
     {
         sDataSensorMeasure.sSalinity.Value = 0;
+        sDataSensorMeasure.sSalinity_Filter.Value = Filter_Salinity(sDataSensorMeasure.sSalinity.Value, sDataSensorMeasure.sSalinity.Scale);
     }
     
     if(sSensor_Turbidity.State_Connect == _SENSOR_DISCONNECT)
     {
         sDataSensorMeasure.sNTU.Value = 0;
+        sDataSensorMeasure.sNTU_Filter.Value = Filter_Turbidity(sDataSensorMeasure.sNTU.Value, sDataSensorMeasure.sNTU.Scale);
     }
 }
 /*==========================Handle==========================*/
@@ -1094,8 +1139,78 @@ void        Init_Parameter_Sensor(void)
     
     sDataSensorMeasure.sSalinity = sSensor_EC.sSalinity_Value;
     sDataSensorMeasure.sNTU = sSensor_Turbidity.sNTU_Value;
+    
+    sDataSensorMeasure.spH_Water_Filter = sDataSensorMeasure.spH_Water;
+    sDataSensorMeasure.sClo_Du_Filter = sDataSensorMeasure.sClo_Du;
+    sDataSensorMeasure.sTemperature_Filter = sDataSensorMeasure.sTemperature;
+    sDataSensorMeasure.sEC_Filter = sDataSensorMeasure.sEC;
+    
+    sDataSensorMeasure.sSalinity_Filter = sDataSensorMeasure.sSalinity;
+    sDataSensorMeasure.sNTU_Filter = sDataSensorMeasure.sNTU;
 }
 /*=========================Handle Data=======================*/
+int32_t Hanlde_Float_To_Int32_Scale_Round(float varFloat, uint8_t scale)
+{
+    float f_hexFloat = 0;
+    int32_t u_hexFloat = 0;
+    
+    uint32_t division = 1;
+    uint32_t stamp_div = 0;
+    float f_compensation = 0;
+
+    f_hexFloat = varFloat;
+    
+    switch(scale)
+    {
+        case 0x00:
+          division = 1;
+          f_compensation = 0;
+          break;
+          
+        case 0xFF:
+          division = 10;
+          f_compensation = 0.1;
+          break;
+          
+        case 0xFE:
+          division = 100;
+          f_compensation = 0.01;
+          break;
+          
+        case 0xFD:
+          division = 1000;
+          f_compensation = 0.001;
+          break;
+         
+        case 0xFC:
+          division = 10000;
+          f_compensation = 0.0001;
+          break;
+          
+        case 0xFB:
+          division = 100000;
+          f_compensation = 0.00001;
+          break;
+          
+        default:
+          break;
+    }
+   
+    if(f_hexFloat >= 0)    
+    {
+      stamp_div = (uint32_t)(f_hexFloat*division*10)%10;
+      if(stamp_div >= 5) f_hexFloat += f_compensation;
+    }
+    else                
+    {
+      stamp_div = (uint32_t)((0-f_hexFloat)*division*10)%10;
+      if(stamp_div >= 5) f_hexFloat -= f_compensation;
+    }
+    
+    u_hexFloat = (int32_t)(f_hexFloat*division);
+    return u_hexFloat;
+}
+
 int32_t Handle_HexFloat_To_Int32_Round(uint32_t hexFloat, uint8_t scale)
 {
     float f_hexFloat = 0;
@@ -1212,14 +1327,14 @@ uint32_t Handle_Float_To_hexUint32(float num)
 
 void RS485_Done_Calib(void)
 {
-    sDataSensorMeasure.State_Wait_Calib = _STATE_CALIB_DONE;
+    sHandleRs485.State_Wait_Calib = _STATE_CALIB_DONE;
     fevent_disable(sEventAppRs485, _EVENT_RS485_WAIT_CALIB);
 }
 
 void RS485_Enter_Calib(void)
 {
     sKindMode485.Trans = Kind_Trans_Calib;
-    sDataSensorMeasure.State_Wait_Calib = _STATE_CALIB_WAIT;
+    sHandleRs485.State_Wait_Calib = _STATE_CALIB_WAIT;
     fevent_enable(sEventAppRs485, _EVENT_RS485_WAIT_CALIB);
 }
 
@@ -1249,7 +1364,7 @@ void RS485_LogData_Calib(uint8_t Kind_Send, const void *data, uint16_t size)
           break;
     }
     Kind_Trans_Calib = Kind_Send;
-    sDataSensorMeasure.State_Wait_Calib = _STATE_CALIB_ENTER;
+    sHandleRs485.State_Wait_Calib = _STATE_CALIB_ENTER;
 }
 
 uint32_t Read_Register_Rs485(uint8_t aData[], uint16_t *pos, uint8_t LengthData)
@@ -1425,70 +1540,59 @@ void AT_CMD_Get_Measure_Value (sData *str_Receiv, uint16_t Pos)
 	Modem_Respond(PortConfig, aTemp, length, 0);
 }
 
-void       AT_CMD_Get_pH_Compensation(sData *str_Receiv, uint16_t Pos)
+void AT_CMD_Get_Measure_Filter (sData *str_Receiv, uint16_t Pos)
 {
-    uint8_t aTemp[50] = "Const pH Compensation: ";   //13 ki tu dau tien
-    sData StrResp = {&aTemp[0], 23}; 
+    uint8_t aTemp[80] = "Measure_Filter: Clo=";   //11 ki tu dau tien
+    uint16_t length = 20;
 
-    Convert_Point_Int_To_String_Scale (aTemp, &StrResp.Length_u16, (int)(sSensor_Clo.sPH.Value), 0xFE);
+    Convert_Point_Int_To_String_Scale (aTemp, &length, (int)(sDataSensorMeasure.sClo_Du_Filter.Value), sDataSensorMeasure.sClo_Du_Filter.Scale);
+    Insert_String_To_String(aTemp, &length, (uint8_t*)"mg/L,pH=",0 , 8);
+    
+    Convert_Point_Int_To_String_Scale (aTemp, &length, (int)(sDataSensorMeasure.spH_Water_Filter.Value), sDataSensorMeasure.spH_Water_Filter.Scale);
+    Insert_String_To_String(aTemp, &length, (uint8_t*)",Temp=",0 , 6);
+    
+    Convert_Point_Int_To_String_Scale (aTemp, &length, (int)(sDataSensorMeasure.sTemperature_Filter.Value), sDataSensorMeasure.sTemperature_Filter.Scale);
+    Insert_String_To_String(aTemp, &length, (uint8_t*)"'C,EC=",0 , 6);
+    
+    Convert_Point_Int_To_String_Scale (aTemp, &length, (int)(sDataSensorMeasure.sEC.Value), sDataSensorMeasure.sEC.Scale);
+    Insert_String_To_String(aTemp, &length, (uint8_t*)"uS/cm,Sali=",0 , 11);
+    
+    Convert_Point_Int_To_String_Scale (aTemp, &length, (int)(sDataSensorMeasure.sSalinity_Filter.Value), sDataSensorMeasure.sSalinity_Filter.Scale);
+    Insert_String_To_String(aTemp, &length, (uint8_t*)"%,NTU=",0 , 6);
+    
+    Convert_Point_Int_To_String_Scale (aTemp, &length, (int)(sDataSensorMeasure.sNTU_Filter.Value), sDataSensorMeasure.sNTU_Filter.Scale);
+    Insert_String_To_String(aTemp, &length, (uint8_t*)"NTU",0 , 3);
 
-	Modem_Respond(PortConfig, StrResp.Data_a8, StrResp.Length_u16, 0);
-}
-void       AT_CMD_Set_pH_Compensation(sData *str_Receiv, uint16_t Pos)
-{
-    uint32_t TempU32 = 0;
-    if( str_Receiv->Data_a8[0] >= '0' && str_Receiv->Data_a8[0] <= '9')
-    {
-        uint8_t length = 0;
-        for(uint8_t i = 0; i < str_Receiv->Length_u16; i++)
-        {
-            if( str_Receiv->Data_a8[i] < '0' || str_Receiv->Data_a8[i]>'9') break;
-            else length++;
-        }
-        TempU32 = Convert_String_To_Dec(str_Receiv->Data_a8 , length);
-        if(TempU32 <= 500 && TempU32 >= 1)
-        {
-            Save_Const_pH_Compensation_Chlorine(TempU32);
-            Modem_Respond(PortConfig, (uint8_t*)"OK", 2, 0);
-        }
-        else
-        {
-            Modem_Respond(PortConfig, (uint8_t*)"ERROR", 5, 0);
-        }
-    }
-    else
-    {
-        Modem_Respond(PortConfig, (uint8_t*)"ERROR", 5, 0);
-    }
+	Modem_Respond(PortConfig, aTemp, length, 0);
 }
 #endif
 /*==================Save and Init Const pH compensation Chlorine===============*/
-void Save_Const_pH_Compensation_Chlorine(uint16_t value)
+void Save_Const_Temp_Compensation_Chlorine(uint16_t value)
 {
 #ifdef USING_INTERNAL_MEM
     uint8_t aData[8] = {0};
     uint8_t length = 0;
     
-    Const_PH_Compensation_Chlorine = value;
+    Const_Temp_Compensation_Chlorine = value;
     
-    aData[length++] = Const_PH_Compensation_Chlorine >> 8;
-    aData[length++] = Const_PH_Compensation_Chlorine;
+    aData[length++] = Const_Temp_Compensation_Chlorine >> 8;
+    aData[length++] = Const_Temp_Compensation_Chlorine;
 
     Save_Array(ADDR_CONST_PH_COMPENSATION, aData, length);
 #endif
 }
 
-void Init_Const_pH_Compensation_Chlorine(void)
+void Init_Const_Temp_Compensation_Chlorine(void)
 {
 #ifdef USING_INTERNAL_MEM
     if(*(__IO uint8_t*)(ADDR_CONST_PH_COMPENSATION) != FLASH_BYTE_EMPTY)
     {
-        Const_PH_Compensation_Chlorine  = *(__IO uint8_t*)(ADDR_CONST_PH_COMPENSATION+2) <<8;
-        Const_PH_Compensation_Chlorine |= *(__IO uint8_t*)(ADDR_CONST_PH_COMPENSATION+3);
+        Const_Temp_Compensation_Chlorine  = *(__IO uint8_t*)(ADDR_CONST_PH_COMPENSATION+2) <<8;
+        Const_Temp_Compensation_Chlorine |= *(__IO uint8_t*)(ADDR_CONST_PH_COMPENSATION+3);
     }
     else
     {
-        Const_PH_Compensation_Chlorine = 300;
+        Const_Temp_Compensation_Chlorine = 220;
     }
 #endif    
 }
@@ -1506,14 +1610,12 @@ void       Init_AppRs485(void)
     Init_UartRs485();
     Init_IdSlave();
     Init_Parameter_Sensor();
-    Init_Const_pH_Compensation_Chlorine();
+    Init_Const_Temp_Compensation_Chlorine();
 #ifdef USING_AT_CONFIG
     /* regis cb serial */
     CheckList_AT_CONFIG[_GET_STATE_SENSOR].CallBack = AT_CMD_Get_State_Sensor;
     CheckList_AT_CONFIG[_GET_MEASURE_VALUE].CallBack = AT_CMD_Get_Measure_Value;
-    
-    CheckList_AT_CONFIG[_GET_PH_COMPENSATION].CallBack = AT_CMD_Get_pH_Compensation;
-    CheckList_AT_CONFIG[_SET_PH_COMPENSATION].CallBack = AT_CMD_Set_pH_Compensation;
+    CheckList_AT_CONFIG[_GET_MEASURE_FILTER].CallBack = AT_CMD_Get_Measure_Filter;
 #endif
 }
 
@@ -1540,4 +1642,6 @@ uint8_t        AppRs485_Task(void)
     
     return Result;
 }
+
+
 

@@ -96,6 +96,7 @@ struct_CheckList_AT CheckList_AT_CONFIG[] =
         
         {_GET_STATE_SENSOR,	    NULL,	        {(uint8_t*)"at+statesensor?",15}},
         {_GET_MEASURE_VALUE,    NULL,           {(uint8_t*)"at+measurevalue?",16}},
+        {_GET_MEASURE_FILTER,   NULL,           {(uint8_t*)"at+measurefilter?",17}},
         
         {_GET_FREQ_WARNING_SENSOR, NULL,        {(uint8_t*)"at+freqwarningsensor?",21}},
         {_SET_FREQ_WARNING_SENSOR, NULL,        {(uint8_t*)"at+freqwarningsensor=",21}},
@@ -109,8 +110,14 @@ struct_CheckList_AT CheckList_AT_CONFIG[] =
         {_GET_OFFSET_NTU,       NULL,           {(uint8_t*)"at+offsetntu?",13}},
         {_SET_OFFSET_NTU,       NULL,           {(uint8_t*)"at+offsetntu=",13}},
         
-        {_GET_PH_COMPENSATION,  NULL,           {(uint8_t*)"at+phcompensation?",18}},
-        {_SET_PH_COMPENSATION,  NULL,           {(uint8_t*)"at+phcompensation=",18}},
+        {_GET_CLO_CONST_TEMP,   NULL,           {(uint8_t*)"at+cloconsttemp?",16}},
+        {_SET_CLO_CONST_TEMP,   NULL,           {(uint8_t*)"at+cloconsttemp=",16}},
+        
+        {_GET_CLO_ZERO_SLOPE,   NULL,           {(uint8_t*)"at+clozeroslope?",16}},
+        {_SET_CLO_ZERO_SLOPE,   NULL,           {(uint8_t*)"at+clozeroslope=",16}},
+        
+        {_GET_CLO_CALIB_POINT,   NULL,          {(uint8_t*)"at+clocalibpoint?",17}},
+        {_SET_CLO_CALIB_POINT,   NULL,          {(uint8_t*)"at+clocalibpoint=",17}},
         
         {_END_AT_CMD,	        NULL,           {(uint8_t*)"at+end",6}},
 };

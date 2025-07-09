@@ -41,7 +41,7 @@ typedef enum
     _RS485_SS_PH_OPERA = 0,
     _RS485_SS_CLO_SEND_PH,
     _RS485_SS_EC_OPERA,
-    _RS485_SS_CLO_PH,
+    _RS485_SS_CLO_READ_CURRENT,
     _RS485_SS_TURBIDITY_OPERA,
     _RS485_SS_CLO_OPERA,
     
@@ -105,11 +105,6 @@ typedef struct
 
 typedef struct
 {
-    uint8_t CountDisconnectRS485_1;
-    uint8_t CountDisconnectRS485_2;
-    
-    uint8_t State_Wait_Calib;
-  
     Struct_SS_Value sClo_Du;
     Struct_SS_Value spH_Water;
     Struct_SS_Value sNTU;
@@ -117,13 +112,28 @@ typedef struct
     Struct_SS_Value sTemperature;
     Struct_SS_Value sEC;
     
+    Struct_SS_Value sClo_Du_Filter;
+    Struct_SS_Value spH_Water_Filter;
+    Struct_SS_Value sNTU_Filter;
+    Struct_SS_Value sSalinity_Filter;
+    Struct_SS_Value sTemperature_Filter;
+    Struct_SS_Value sEC_Filter;
+}Struct_Data_Sensor_Measure;
+
+typedef struct 
+{
+    uint8_t CountDisconnectRS485_1;
+    uint8_t CountDisconnectRS485_2;
+  
+    uint8_t State_Wait_Calib;
+  
     uint8_t State_Recv_Clo;
     uint8_t State_Recv_pH;
     uint8_t State_Recv_NTU;
     uint8_t State_Recv_Salinity;
     uint8_t State_Recv_Temperature;
     uint8_t State_Recv_EC;
-}Struct_Data_Sensor_Measure;
+}Struct_Hanlde_RS485;
 
 typedef struct
 {
@@ -201,6 +211,8 @@ extern Struct_Sensor_EC            sSensor_EC;
 extern Struct_Sensor_Clo           sSensor_Clo;
 extern Struct_Sensor_Turbidity     sSensor_Turbidity;
 extern Struct_Data_Sensor_Measure  sDataSensorMeasure;
+extern int16_t Const_Temp_Compensation_Chlorine;
+extern Struct_Hanlde_RS485         sHandleRs485;
 /*====================Function Handle====================*/
 
 uint8_t    AppRs485_Task(void);
@@ -210,16 +222,17 @@ void       Init_IdSlave(void);
 
 void       AT_CMD_Get_State_Sensor(sData *str, uint16_t Pos);
 void       AT_CMD_Get_Measure_Value (sData *str_Receiv, uint16_t Pos);
-void       AT_CMD_Get_pH_Compensation(sData *str_Receiv, uint16_t Pos);
-void       AT_CMD_Set_pH_Compensation(sData *str_Receiv, uint16_t Pos);
+void       AT_CMD_Get_Measure_Filter (sData *str_Receiv, uint16_t Pos);
 
 void       Init_Parameter_Sensor(void);
-void       Save_Const_pH_Compensation_Chlorine(uint16_t value);
-void       Init_Const_pH_Compensation_Chlorine(void);
+void       Save_Const_Temp_Compensation_Chlorine(uint16_t value);
+void       Init_Const_Temp_Compensation_Chlorine(void);
 
 //void       Send_RS458_Normal(uint8_t *aData, uint16_t Length_u16);
 void       Init_UartRs485(void);
 void       Send_RS458_Sensor(uint8_t *aData, uint16_t Length_u16);
+
+int32_t    Hanlde_Float_To_Int32_Scale_Round(float varFloat, uint8_t scale);
 int32_t    Handle_HexFloat_To_Int32_Round(uint32_t hexFloat, uint8_t scale);
 float      Handle_int32_To_Float_Scale(int32_t var, uint8_t scale);
 uint32_t   Handle_Float_To_hexUint32(float num);

@@ -103,6 +103,7 @@ typedef enum
     
     _GET_STATE_SENSOR,
     _GET_MEASURE_VALUE,
+    _GET_MEASURE_FILTER,
     
     _GET_FREQ_WARNING_SENSOR,
     _SET_FREQ_WARNING_SENSOR,
@@ -116,8 +117,14 @@ typedef enum
     _GET_OFFSET_NTU,
     _SET_OFFSET_NTU,
     
-    _GET_PH_COMPENSATION,
-    _SET_PH_COMPENSATION,
+    _GET_CLO_CONST_TEMP,
+    _SET_CLO_CONST_TEMP,
+    
+    _GET_CLO_ZERO_SLOPE,
+    _SET_CLO_ZERO_SLOPE,
+    
+    _GET_CLO_CALIB_POINT,
+    _SET_CLO_CALIB_POINT,
     
     _END_AT_CMD,
 }Type_Command_AT_PC;

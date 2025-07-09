@@ -36,6 +36,14 @@ typedef enum
     _OFFSET_EC,
 }eKindOffsetMeasure;
 
+typedef enum
+{
+    _DCU_CALIB_CLO_ZERO,
+    _DCU_CALIB_CLO_SLOPE,
+    _DCU_CALIB_CLO_POINT1,
+    _DCU_CALIB_CLO_POINT2,
+}eKindDCU_Calib_Sensor;
+
 typedef struct
 {
     Struct_SS_Value sClo_Du;
@@ -53,8 +61,35 @@ typedef struct
     Struct_SS_Value sEC_Sampling;
 }Struct_Offset_Measure;
 
+typedef struct 
+{
+    Struct_SS_Value sClo_Du;
+    
+    uint8_t     Scale;
+    uint16_t    Measure_AD;
+    
+    uint16_t    ADC_Zero;
+    
+    uint16_t    ADC_SLope;
+    int16_t     Clo_Calib_Slope;
+    int16_t     Temp_Calib_Slope;
+    int16_t     Ph_Calib_Slope;
+    
+    uint16_t    ADC_CalibPoint_1;
+    int16_t     Clo_CalibPoint_1;
+    int16_t     Temp_CalibPoint_1;
+    int16_t     Ph_CalibPoint_1;
+    
+    uint16_t    ADC_CalibPoint_2;
+    int16_t     Clo_CalibPoint_2;
+    int16_t     Temp_CalibPoint_2;
+    int16_t     Ph_CalibPoint_2;
+    
+}Struct_ConvertChlorine;
+
 extern sEvent_struct        sEventAppSensor[];
 extern Struct_Offset_Measure   sOffsetMeasure;
+extern Struct_ConvertChlorine      sConvertChlorine;
 /*=============== Function handle ================*/
 
 uint8_t     AppSensor_Task(void);
@@ -80,9 +115,44 @@ void AT_CMD_Set_Offset_pH (sData *str, uint16_t Pos);
 void AT_CMD_Get_Offset_NTU (sData *str, uint16_t Pos);
 void AT_CMD_Set_Offset_NTU (sData *str, uint16_t Pos);
 
+void       AT_CMD_Get_Clo_Const_Temp(sData *str_Receiv, uint16_t Pos);
+void       AT_CMD_Set_Clo_Const_Temp(sData *str_Receiv, uint16_t Pos);
+void       AT_CMD_Get_Clo_Zero_Slope(sData *str_Receiv, uint16_t Pos);
+void       AT_CMD_Set_Clo_Zero_Slope(sData *str_Receiv, uint16_t Pos);
+void       AT_CMD_Get_Clo_Calib_Point(sData *str_Receiv, uint16_t Pos);
+void       AT_CMD_Set_Clo_Calib_Point(sData *str_Receiv, uint16_t Pos);
+
 void quickSort_Sampling(int16_t array_stt[],int16_t array_sampling[], uint8_t left, uint8_t right);
 void quickSort_Sampling_pH(void);
 void quickSort_Sampling_Clo(void);
 void quickSort_Sampling_EC(void);
 void quickSort_Sampling_Turbidity(void);
+
+int32_t Filter_Turbidity(int16_t var, uint8_t scale);
+int32_t Filter_CloDu(int16_t var, uint8_t scale);
+int32_t Filter_pH(int16_t var, uint8_t scale);
+int32_t Filter_Salinity(int16_t var, uint8_t scale);
+int32_t Filter_Temperature(int16_t var, uint8_t scale);
+int32_t Filter_EC(int16_t var, uint8_t scale);
+
+void Init_Chlorine_Calib(void);
+void Save_Chlorine_Calib(uint16_t    ADC_Zero,
+                         uint16_t    ADC_SLope,
+                         int16_t     Clo_Calib_Slope,
+                         int16_t     Temp_Calib_Slope,
+                         int16_t     Ph_Calib_Slope);
+float compute_clo_du(uint16_t adc, int16_t pH, int16_t temp_C);
+
+void Save_Chlorine_PointCalib(uint16_t    ADC_Point_1,
+                              int16_t     Clo_Point_1,
+                              int16_t     Temp_Point_1,
+                              int16_t     Ph_Point_1,
+                              uint16_t    ADC_Point_2,
+                              int16_t     Clo_Point_2,
+                              int16_t     Temp_Point_2,
+                              int16_t     Ph_Point_2);
+void Init_Chlorine_PointCalib_1(void);
+float Chlorine_Compensation_pH(uint16_t adc, int16_t pH, int16_t temp_C);
+void DCU_Logdata_Calib(uint8_t KindCalib, int32_t Value);
+void DCU_Enter_Calib(void);
 #endif

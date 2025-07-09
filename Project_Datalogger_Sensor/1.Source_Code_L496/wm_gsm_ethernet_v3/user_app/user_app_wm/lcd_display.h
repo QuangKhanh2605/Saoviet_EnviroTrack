@@ -128,6 +128,7 @@ typedef enum
     __SET_CALIB_SS_CLO,
     __SET_CALIB_SS_EC,
     __SET_CALIB_SS_TUR,
+    __SET_CALIB_VALUE,
     
     __SET_PH_TITLE,
     __SET_PH_Z_SOLUTION,
@@ -136,9 +137,10 @@ typedef enum
     __SET_PH_SLOPE,
     
     __SET_CLO_TITLE,
-    __SET_CLO_SOLUTION,
     __SET_CLO_ZERO,
     __SET_CLO_SLOPE,
+    __SET_CLO_CLB_PH_1,
+    __SET_CLO_CLB_PH_2,
     
     __SET_EC_TITLE,
     __SET_EC_CONST,
@@ -155,6 +157,13 @@ typedef enum
     __SET_TUR_AD_P3,
     __SET_TUR_VALUE_P4,
     __SET_TUR_AD_P4,
+    
+    __SET_VALUE_CLO_DU,
+    __SET_VALUE_PH_WATER,
+    __SET_VALUE_NTU,
+    __SET_VALUE_SALINITY,
+    __SET_VALUE_TEMP,
+    __SET_VALUE_EC,
     
     __SET_CALIB_STATE,
     __INFOR_FW_VERSION_1,
@@ -231,6 +240,7 @@ typedef enum
     _LCD_SCR_SET_CALIB_SS_EC,
     _LCD_SCR_SET_CALIB_SS_TUR_TAB_1,
     _LCD_SCR_SET_CALIB_SS_TUR_TAB_2,
+    _LCD_SCR_SET_CALIB_VALUE,
     
     _LCD_SCR_SET_CALIB_STATE,
     _LCD_SCR_INFORMATION,

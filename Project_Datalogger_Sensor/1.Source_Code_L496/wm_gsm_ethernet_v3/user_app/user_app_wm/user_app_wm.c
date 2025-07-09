@@ -718,7 +718,7 @@ static uint8_t _Cb_Read_RS485_Modbus (uint8_t event)
                       
                       Handle_Data_CM44(Clo_Du, pH_Water, NTU, Salinity, Temperature);
                        
-                      sDataSensorMeasure.CountDisconnectRS485_1 = 0;
+                      sHandleRs485.CountDisconnectRS485_1 = 0;
                     break;
                 }
                 
@@ -746,11 +746,11 @@ static uint8_t _Cb_Read_RS485_Modbus (uint8_t event)
         
         sWmDigVar.sModbDevData[0].Status_u8 = false;
         
-        sDataSensorMeasure.CountDisconnectRS485_1++;
-        if(sDataSensorMeasure.CountDisconnectRS485_1 > 3)
-            sDataSensorMeasure.CountDisconnectRS485_1 =3;
+        sHandleRs485.CountDisconnectRS485_1++;
+        if(sHandleRs485.CountDisconnectRS485_1 > 3)
+            sHandleRs485.CountDisconnectRS485_1 =3;
         
-        if(sDataSensorMeasure.CountDisconnectRS485_1 >=3 && sDataSensorMeasure.CountDisconnectRS485_2 >=3)
+        if(sHandleRs485.CountDisconnectRS485_1 >=3 && sHandleRs485.CountDisconnectRS485_2 >=3)
         {
             sDataSensorMeasure.sClo_Du.Value   = 0;
             sDataSensorMeasure.spH_Water.Value = 0;
@@ -857,7 +857,7 @@ static uint8_t _Cb_Read_RS485_2_Modbus (uint8_t event)
                       Temperature = (Temperature << 16) | (sUart485_2.Data_a8[35]<<8 | sUart485_2.Data_a8[36]);
                       
                       Handle_Data_CM44(Clo_Du, pH_Water, NTU, Salinity, Temperature);
-                      sDataSensorMeasure.CountDisconnectRS485_2 = 0;
+                      sHandleRs485.CountDisconnectRS485_2 = 0;
                       
                     break;
                 }
@@ -886,11 +886,11 @@ static uint8_t _Cb_Read_RS485_2_Modbus (uint8_t event)
         
         sWmDigVar.sModbDevData[1].Status_u8 = false; 
         
-        sDataSensorMeasure.CountDisconnectRS485_2++;
-        if(sDataSensorMeasure.CountDisconnectRS485_2 > 3)
-            sDataSensorMeasure.CountDisconnectRS485_2 =3;
+        sHandleRs485.CountDisconnectRS485_2++;
+        if(sHandleRs485.CountDisconnectRS485_2 > 3)
+            sHandleRs485.CountDisconnectRS485_2 =3;
         
-        if(sDataSensorMeasure.CountDisconnectRS485_1 >=3 && sDataSensorMeasure.CountDisconnectRS485_2 >=3)
+        if(sHandleRs485.CountDisconnectRS485_1 >=3 && sHandleRs485.CountDisconnectRS485_2 >=3)
         {
             
             sDataSensorMeasure.sClo_Du.Value   = 0;
@@ -3243,28 +3243,28 @@ uint8_t SensorRS485_Packet_TSVH (uint8_t *pData)
 //    AppCtrlOxy_Packet_Data(pData, &length, OBIS_STATE_PUMP_PH, &sParamCtrlPH.StateCtrl, 1, 0xAA);
        
         //----------  Clo_Du ------
-        if(sDataSensorMeasure.State_Recv_Clo == 1)
-            SensorRS485_Packet_Data(pData, &length, OBIS_ENVI_CLO_DU, &sDataSensorMeasure.sClo_Du.Value, 2, sDataSensorMeasure.sClo_Du.Scale);
+        if(sHandleRs485.State_Recv_Clo == 1)
+            SensorRS485_Packet_Data(pData, &length, OBIS_ENVI_CLO_DU, &sDataSensorMeasure.sClo_Du_Filter.Value, 2, sDataSensorMeasure.sClo_Du_Filter.Scale);
         
         //----------  pH ------
-        if(sDataSensorMeasure.State_Recv_pH == 1)
-            SensorRS485_Packet_Data(pData, &length, OBIS_ENVI_PH_WATER, &sDataSensorMeasure.spH_Water.Value, 2, sDataSensorMeasure.spH_Water.Scale);
+        if(sHandleRs485.State_Recv_pH == 1)
+            SensorRS485_Packet_Data(pData, &length, OBIS_ENVI_PH_WATER, &sDataSensorMeasure.spH_Water_Filter.Value, 2, sDataSensorMeasure.spH_Water_Filter.Scale);
         
         //----------  Do Duc------
-        if(sDataSensorMeasure.State_Recv_NTU == 1)
-            SensorRS485_Packet_Data(pData, &length, OBIS_ENVI_NTU, &sDataSensorMeasure.sNTU.Value, 2, sDataSensorMeasure.sNTU.Scale);
+        if(sHandleRs485.State_Recv_NTU == 1)
+            SensorRS485_Packet_Data(pData, &length, OBIS_ENVI_NTU, &sDataSensorMeasure.sNTU_Filter.Value, 2, sDataSensorMeasure.sNTU_Filter.Scale);
         
         //----------  SALINITY %------
-        if(sDataSensorMeasure.State_Recv_Salinity == 1)
-            SensorRS485_Packet_Data(pData, &length, OBIS_ENVI_SALINITY_UNIT, &sDataSensorMeasure.sSalinity.Value, 2, sDataSensorMeasure.sSalinity.Scale);
+        if(sHandleRs485.State_Recv_Salinity == 1)
+            SensorRS485_Packet_Data(pData, &length, OBIS_ENVI_SALINITY_UNIT, &sDataSensorMeasure.sSalinity_Filter.Value, 2, sDataSensorMeasure.sSalinity_Filter.Scale);
         
         //----------  Temperature ------
-        if(sDataSensorMeasure.State_Recv_Temperature == 1)
-            SensorRS485_Packet_Data(pData, &length, OBIS_ENVI_OXY_TEMPERATURE, &sDataSensorMeasure.sTemperature.Value, 2, sDataSensorMeasure.sTemperature.Scale);
+        if(sHandleRs485.State_Recv_Temperature == 1)
+            SensorRS485_Packet_Data(pData, &length, OBIS_ENVI_OXY_TEMPERATURE, &sDataSensorMeasure.sTemperature_Filter.Value, 2, sDataSensorMeasure.sTemperature_Filter.Scale);
         
         //----------  EC ------
-        if(sDataSensorMeasure.State_Recv_EC == 1)
-            SensorRS485_Packet_Data(pData, &length, OBIS_ENVI_EC, &sDataSensorMeasure.sEC.Value, 2, sDataSensorMeasure.sEC.Scale);
+        if(sHandleRs485.State_Recv_EC == 1)
+            SensorRS485_Packet_Data(pData, &length, OBIS_ENVI_EC, &sDataSensorMeasure.sEC_Filter.Value, 2, sDataSensorMeasure.sEC_Filter.Scale);
     
     //----------Tan suat--------------------
     SV_Protocol_Packet_Data(pData, &length, OBIS_RSSI_1, &sSimCommInfor.RSSI_u8, 1, 0x00);

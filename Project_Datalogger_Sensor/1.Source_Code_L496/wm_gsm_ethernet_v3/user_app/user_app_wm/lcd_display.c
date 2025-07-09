@@ -131,6 +131,7 @@ sOjectInformation   sLCDObject[] =
     {   __SET_CALIB_SS_CLO, "2.Chlorine",       NULL,   _DTYPE_STRING,   0,     NULL,       4,  14, 0x00,    _LCD_SCR_SET_CALIB},
     {   __SET_CALIB_SS_EC,  "3.EC",             NULL,   _DTYPE_STRING,   0,     NULL,       5,  14, 0x00,    _LCD_SCR_SET_CALIB},
     {   __SET_CALIB_SS_TUR, "4.Turbididy",      NULL,   _DTYPE_STRING,   0,     NULL,       6,  14, 0x00,    _LCD_SCR_SET_CALIB},
+    {   __SET_CALIB_VALUE,  "5.Value",          NULL,   _DTYPE_STRING,   0,     NULL,       7,  14, 0x00,    _LCD_SCR_SET_CALIB},
     
     {   __SET_PH_TITLE,     "pH         AD: ",  NULL,   _DTYPE_U32,      0x00,  NULL,       2,  5,  0x00,    _LCD_SCR_SET_CALIB_SS_PH},
     {   __SET_PH_Z_SOLUTION,"1.Z_Solution: ",   NULL,   _DTYPE_I16,      0xFE,  NULL,       3,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_PH},
@@ -138,10 +139,11 @@ sOjectInformation   sLCDObject[] =
     {   __SET_PH_S_SOLUTION,"3.S_Solution: ",   NULL,   _DTYPE_I16,      0xFE,  NULL,       5,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_PH},
     {   __SET_PH_SLOPE,     "4.Slope",          NULL,   _DTYPE_STRING,   0,     NULL,       6,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_PH},
     
-    {   __SET_CLO_TITLE,    "Chlorine   AD: ",  NULL,   _DTYPE_U32,      0x00,  NULL,       2,  5,  0x00,    _LCD_SCR_SET_CALIB_SS_CLO},
-    {   __SET_CLO_SOLUTION, "1.Solution: ",     NULL,   _DTYPE_I16,      0xFE,  NULL,       3,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_CLO},
-    {   __SET_CLO_ZERO,     "2.Zero",           NULL,   _DTYPE_STRING,   0,     NULL,       4,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_CLO},
-    {   __SET_CLO_SLOPE,    "3.Slope",          NULL,   _DTYPE_STRING,   0,     NULL,       5,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_CLO},
+    {   __SET_CLO_TITLE,    "Chlorine   AD: ",  NULL,   _DTYPE_U16,      0xFE,  NULL,       2,  5,  0x00,    _LCD_SCR_SET_CALIB_SS_CLO},
+    {   __SET_CLO_ZERO,     "1.Zero",           NULL,   _DTYPE_STRING,   0,     NULL,       3,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_CLO},
+    {   __SET_CLO_SLOPE,    "2.Slope :   ",     NULL,   _DTYPE_I16,      0xFE,  NULL,       4,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_CLO},
+    {   __SET_CLO_CLB_PH_1, "3.Point1:   ",     NULL,   _DTYPE_I16,      0xFE,  NULL,       5,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_CLO},
+    {   __SET_CLO_CLB_PH_2, "3.Point2:   ",     NULL,   _DTYPE_I16,      0xFE,  NULL,       6,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_CLO},
     
     {   __SET_EC_TITLE,     "EC         AD: ",  NULL,   _DTYPE_I16,      0x00,  NULL,       2,  5,  0x00,    _LCD_SCR_SET_CALIB_SS_EC},
     {   __SET_EC_CONST,     "1.Const: ",        NULL,   _DTYPE_I16,      0x00,  NULL,       3,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_EC},
@@ -153,11 +155,18 @@ sOjectInformation   sLCDObject[] =
     {   __SET_TUR_VALUE_P2, "3.2nd NTU: ",      NULL,   _DTYPE_I16,      0xFE,  NULL,       5,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_TUR_TAB_1},
     {   __SET_TUR_AD_P2,    "4.2nd AD : ",      NULL,   _DTYPE_U32,      0x00,  NULL,       6,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_TUR_TAB_1},
     
-    {   __SET_TUR_TITLE_2,  "Tur    AD:",       NULL,   _DTYPE_U32,      0x00,  NULL,       2,  5, 0x00,    _LCD_SCR_SET_CALIB_SS_TUR_TAB_2},
+    {   __SET_TUR_TITLE_2,  "Tur    AD:",       NULL,   _DTYPE_U32,      0x00,  NULL,       2,  5, 0x00,     _LCD_SCR_SET_CALIB_SS_TUR_TAB_2},
     {   __SET_TUR_VALUE_P3, "5.3rd NTU: ",      NULL,   _DTYPE_I16,      0xFE,  NULL,       3,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_TUR_TAB_2},
     {   __SET_TUR_AD_P3,    "6.3rd AD : ",      NULL,   _DTYPE_U32,      0x00,  NULL,       4,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_TUR_TAB_2},
     {   __SET_TUR_VALUE_P4, "7.4th NTU: ",      NULL,   _DTYPE_I16,      0xFE,  NULL,       5,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_TUR_TAB_2},
     {   __SET_TUR_AD_P4,    "8.4th AD : ",      NULL,   _DTYPE_U32,      0x00,  NULL,       6,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_TUR_TAB_2},
+    
+    {   __SET_VALUE_CLO_DU,  "CLO DU: ",         NULL,   _DTYPE_I16,      0xFE,   "  mg/L",  2,  0,  0x00,    _LCD_SCR_SET_CALIB_VALUE    },
+    {   __SET_VALUE_PH_WATER,"PH ATC: ",         NULL,   _DTYPE_I16,      0xFE,   "  pH",    3,  0,  0x00,    _LCD_SCR_SET_CALIB_VALUE    },
+    {   __SET_VALUE_NTU,     "NTU   : ",         NULL,   _DTYPE_I16,      0xFE,   "  NTU",   4,  0,  0x00,    _LCD_SCR_SET_CALIB_VALUE    },
+    {   __SET_VALUE_SALINITY,"Do man: ",         NULL,   _DTYPE_I16,      0xFE,   "  %",     5,  0,  0x00,    _LCD_SCR_SET_CALIB_VALUE    },
+    {   __SET_VALUE_TEMP,    "Temp  : ",         NULL,   _DTYPE_I16,      0xFE,   "  ‰C",    6,  0,  0x00,    _LCD_SCR_SET_CALIB_VALUE    },
+    {   __SET_VALUE_EC,      "EC    : ",         NULL,   _DTYPE_I16,      0xFE,   "  uS/cm", 7,  0,  0x00,    _LCD_SCR_SET_CALIB_VALUE    },
     
     {   __SET_CALIB_STATE,  NULL,               NULL,   _DTYPE_STRING,   0,     NULL,       3,  24, 0x00,    _LCD_SCR_SET_CALIB_STATE},
     
@@ -233,18 +242,18 @@ void Display_Init (void)
     sLCDObject[__FREQ].pData    = &sModemInfor.sFrequence.DurOnline_u32;    
     
 //    sLCDObject[__SC1_ID_DCU].pData      = sModemInfor.sId.Data_a8;
-    sLCDObject[__SC1_CLO_DU].pData      = &sDataSensorMeasure.sClo_Du.Value; 
-    sLCDObject[__SC1_CLO_DU].Scale_u8   = sDataSensorMeasure.sClo_Du.Scale; 
-    sLCDObject[__SC1_PH_WATER].pData    = &sDataSensorMeasure.spH_Water.Value;    
-    sLCDObject[__SC1_PH_WATER].Scale_u8 = sDataSensorMeasure.spH_Water.Scale;    
-    sLCDObject[__SC1_NTU].pData         = &sDataSensorMeasure.sNTU.Value;   
-    sLCDObject[__SC1_NTU].Scale_u8      = sDataSensorMeasure.sNTU.Scale;   
-    sLCDObject[__SC1_SALINITY].pData    = &sDataSensorMeasure.sSalinity.Value;    
-    sLCDObject[__SC1_SALINITY].Scale_u8 = sDataSensorMeasure.sSalinity.Scale; 
-    sLCDObject[__SC1_TEMP].pData        = &sDataSensorMeasure.sTemperature.Value;    
-    sLCDObject[__SC1_TEMP].Scale_u8     = sDataSensorMeasure.sTemperature.Scale;   
-    sLCDObject[__SC1_EC].pData          = &sDataSensorMeasure.sEC.Value;   
-    sLCDObject[__SC1_EC].Scale_u8       = sDataSensorMeasure.sEC.Scale;   
+    sLCDObject[__SC1_CLO_DU].pData      = &sDataSensorMeasure.sClo_Du_Filter.Value; 
+    sLCDObject[__SC1_CLO_DU].Scale_u8   = sDataSensorMeasure.sClo_Du_Filter.Scale; 
+    sLCDObject[__SC1_PH_WATER].pData    = &sDataSensorMeasure.spH_Water_Filter.Value;    
+    sLCDObject[__SC1_PH_WATER].Scale_u8 = sDataSensorMeasure.spH_Water_Filter.Scale;    
+    sLCDObject[__SC1_NTU].pData         = &sDataSensorMeasure.sNTU_Filter.Value;   
+    sLCDObject[__SC1_NTU].Scale_u8      = sDataSensorMeasure.sNTU_Filter.Scale;   
+    sLCDObject[__SC1_SALINITY].pData    = &sDataSensorMeasure.sSalinity_Filter.Value;    
+    sLCDObject[__SC1_SALINITY].Scale_u8 = sDataSensorMeasure.sSalinity_Filter.Scale; 
+    sLCDObject[__SC1_TEMP].pData        = &sDataSensorMeasure.sTemperature_Filter.Value;    
+    sLCDObject[__SC1_TEMP].Scale_u8     = sDataSensorMeasure.sTemperature_Filter.Scale;   
+    sLCDObject[__SC1_EC].pData          = &sDataSensorMeasure.sEC_Filter.Value;   
+    sLCDObject[__SC1_EC].Scale_u8       = sDataSensorMeasure.sEC_Filter.Scale;    
     
     sLCDObject[__SET_PH_TITLE].pData        = &sSensor_pH.Measure_AD; 
     sLCDObject[__SET_PH_Z_SOLUTION].pData   = &sSensor_pH.sZero_Calib.Value ; 
@@ -252,9 +261,15 @@ void Display_Init (void)
     sLCDObject[__SET_PH_S_SOLUTION].pData   = &sSensor_pH.sSlope_Calib.Value; 
     sLCDObject[__SET_PH_SLOPE].Scale_u8     = sSensor_pH.sSlope_Calib.Scale; 
     
-    sLCDObject[__SET_CLO_TITLE].pData    = &sSensor_Clo.Measure_AD; 
-    sLCDObject[__SET_CLO_SOLUTION].pData = &sSensor_Clo.sSolution_Calibration.Value; 
-    sLCDObject[__SET_CLO_SOLUTION].Scale_u8 = sSensor_Clo.sSolution_Calibration.Scale; 
+    sLCDObject[__SET_CLO_TITLE].pData       = &sConvertChlorine.Measure_AD; 
+    sLCDObject[__SET_CLO_SLOPE].pData       = &sConvertChlorine.Clo_Calib_Slope ; 
+    sLCDObject[__SET_CLO_SLOPE].Scale_u8    = sConvertChlorine.Scale; 
+    
+    sLCDObject[__SET_CLO_CLB_PH_1].pData    = &sConvertChlorine.Clo_CalibPoint_1; 
+    sLCDObject[__SET_CLO_CLB_PH_1].Scale_u8 = sConvertChlorine.Scale; 
+    
+    sLCDObject[__SET_CLO_CLB_PH_2].pData    = &sConvertChlorine.Clo_CalibPoint_2; 
+    sLCDObject[__SET_CLO_CLB_PH_2].Scale_u8 = sConvertChlorine.Scale; 
     
     sLCDObject[__SET_EC_TITLE].pData     = &sSensor_EC.sConductivity_Value.Value;
     sLCDObject[__SET_EC_TITLE].Scale_u8  = sSensor_EC.sConductivity_Value.Scale;
@@ -278,6 +293,19 @@ void Display_Init (void)
     sLCDObject[__SET_TUR_VALUE_P4].pData     = &sSensor_Turbidity.sFourth_Calibration.Value;
     sLCDObject[__SET_TUR_VALUE_P4].Scale_u8  = sSensor_Turbidity.sFourth_Calibration.Scale;
     sLCDObject[__SET_TUR_AD_P4].pData        = &sSensor_Turbidity.Fourth_AD_u32;
+    
+    sLCDObject[__SET_VALUE_CLO_DU].pData      = &sDataSensorMeasure.sClo_Du.Value; 
+    sLCDObject[__SET_VALUE_CLO_DU].Scale_u8   = sDataSensorMeasure.sClo_Du.Scale; 
+    sLCDObject[__SET_VALUE_PH_WATER].pData    = &sDataSensorMeasure.spH_Water.Value;    
+    sLCDObject[__SET_VALUE_PH_WATER].Scale_u8 = sDataSensorMeasure.spH_Water.Scale;    
+    sLCDObject[__SET_VALUE_NTU].pData         = &sDataSensorMeasure.sNTU.Value;   
+    sLCDObject[__SET_VALUE_NTU].Scale_u8      = sDataSensorMeasure.sNTU.Scale;   
+    sLCDObject[__SET_VALUE_SALINITY].pData    = &sDataSensorMeasure.sSalinity.Value;    
+    sLCDObject[__SET_VALUE_SALINITY].Scale_u8 = sDataSensorMeasure.sSalinity.Scale; 
+    sLCDObject[__SET_VALUE_TEMP].pData        = &sDataSensorMeasure.sTemperature.Value;    
+    sLCDObject[__SET_VALUE_TEMP].Scale_u8     = sDataSensorMeasure.sTemperature.Scale;   
+    sLCDObject[__SET_VALUE_EC].pData          = &sDataSensorMeasure.sEC.Value;   
+    sLCDObject[__SET_VALUE_EC].Scale_u8       = sDataSensorMeasure.sEC.Scale;  
     
     sLCDObject[__INFOR_FW_VERSION_2].pData   = sFirmVersion.Data_a8;
     
@@ -454,7 +482,7 @@ static uint8_t _Cb_Display_Auto_SW (uint8_t event)
     static uint16_t cNext = 0;
     static uint8_t MarkButtPressed = false;
     
-    if (Check_Time_Out(sButton.LandMarkPressButton_u32, 60000*5) == true) {
+    if (Check_Time_Out(sButton.LandMarkPressButton_u32, 60000*10) == true) {
         if (MarkButtPressed == true) {
             MarkButtPressed = false;
             sLCD.sScreenNow.Index_u8 = _LCD_SCREEN_1;
@@ -681,7 +709,7 @@ static uint8_t _Cb_button_detect (uint8_t event)
 
 uint8_t Display_Check_Toggle (uint8_t object, uint8_t Flag)
 {
-    static uint32_t LandMarkToggle_u32[2][__OJECT_END] = {0};
+    static uint32_t LandMarkToggle_u32[3][__OJECT_END] = {0};
     static uint8_t Hide[3][__OJECT_END] = {0};
 
     if ((sLCDObject[object].Mode_u8 & Flag) == Flag) {
@@ -1047,7 +1075,7 @@ void Display_Show_State_Calib_Sensor (uint8_t screen)
 {
     if(screen == _LCD_SCR_SET_CALIB_STATE)
     {
-        switch(sDataSensorMeasure.State_Wait_Calib)
+        switch(sHandleRs485.State_Wait_Calib)
         {
             case _STATE_CALIB_FREE:
               sLCDObject[__SET_CALIB_STATE].pData = aSTT_CALIB_FREE;
