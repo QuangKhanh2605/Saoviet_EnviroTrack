@@ -1331,10 +1331,10 @@ void Init_Chlorine_Calib(void)
     else
     {
         sConvertChlorine.ADC_Zero = 400;
-        sConvertChlorine.ADC_SLope = 1041;
-        sConvertChlorine.Clo_Calib_Slope = 138;
-        sConvertChlorine.Temp_Calib_Slope = 2539;
-        sConvertChlorine.Ph_Calib_Slope = 790;
+        sConvertChlorine.ADC_SLope = 867;
+        sConvertChlorine.Clo_Calib_Slope = 88;
+        sConvertChlorine.Temp_Calib_Slope = 2717;
+        sConvertChlorine.Ph_Calib_Slope = 716;
     }
 #endif    
 }
@@ -1422,15 +1422,15 @@ void Init_Chlorine_PointCalib_1(void)
     }
     else
     {
-        sConvertChlorine.ADC_CalibPoint_1 = 930;
-        sConvertChlorine.Clo_CalibPoint_1 = 108;
-        sConvertChlorine.Temp_CalibPoint_1 = 2507;
-        sConvertChlorine.Ph_CalibPoint_1 = 714;
+        sConvertChlorine.ADC_CalibPoint_1 = 922;
+        sConvertChlorine.Clo_CalibPoint_1 = 91;
+        sConvertChlorine.Temp_CalibPoint_1 = 2685;
+        sConvertChlorine.Ph_CalibPoint_1 = 666;
         
-        sConvertChlorine.ADC_CalibPoint_2 = 1241;
-        sConvertChlorine.Clo_CalibPoint_2 = 127;
-        sConvertChlorine.Temp_CalibPoint_2 = 2517;
-        sConvertChlorine.Ph_CalibPoint_2 = 853;
+        sConvertChlorine.ADC_CalibPoint_2 = 906;
+        sConvertChlorine.Clo_CalibPoint_2 = 111;
+        sConvertChlorine.Temp_CalibPoint_2 = 2765;
+        sConvertChlorine.Ph_CalibPoint_2 = 773;
     }
 #endif    
 }
@@ -1668,7 +1668,15 @@ float Chlorine_Compensation_pH(uint16_t adc, int16_t pH, int16_t temp_C)
     //Tinh gia tri Clo Point
     Clo_Point = ((float)(ADC_Point_u - ADC_Zero) / (float)(ADC_Slope_u - ADC_Zero))*Clo_Slope_f;
     // Bu nhiet do
-    Clo_Point = Clo_Point / (1.0f + alpha * (Temp_Point_f - Temp_Slope_f));
+    if(Const_Temp_Compensation_Chlorine % 10 == 0)
+        Clo_Point = Clo_Point * (1.0f + alpha * (Temp_Point_f - Temp_Slope_f));
+    else if(Const_Temp_Compensation_Chlorine % 10 == 1)
+        Clo_Point = Clo_Point * (1.0f - alpha * (Temp_Point_f - Temp_Slope_f));
+    else if(Const_Temp_Compensation_Chlorine % 10 == 2)
+        Clo_Point = Clo_Point / (1.0f - alpha * (Temp_Point_f - Temp_Slope_f));
+    else 
+        Clo_Point = Clo_Point * (1.0f + alpha * (Temp_Point_f - Temp_Slope_f));
+      
     //He so bu pH tai point
     Const_Compensation_Point = Clo_Point_f/Clo_Point;
     
@@ -1680,7 +1688,14 @@ float Chlorine_Compensation_pH(uint16_t adc, int16_t pH, int16_t temp_C)
     //Tinh Clo du
     Clo_Var = ((float)(adc - ADC_Zero) / (float)(ADC_Slope_u - ADC_Zero))*Clo_Slope_f;
     // Bu nhiet do
-    Clo_Var = Clo_Var / (1.0f + alpha * (temp_var - Temp_Slope_f));
+    if(Const_Temp_Compensation_Chlorine % 10 == 0)
+        Clo_Var = Clo_Var * (1.0f + alpha * (temp_var - Temp_Slope_f));
+    else if(Const_Temp_Compensation_Chlorine % 10 == 1)
+        Clo_Var = Clo_Var * (1.0f - alpha * (temp_var - Temp_Slope_f));
+    else if(Const_Temp_Compensation_Chlorine % 10 == 2)
+        Clo_Var = Clo_Var / (1.0f - alpha * (temp_var - Temp_Slope_f));
+    else 
+        Clo_Var = Clo_Var / (1.0f + alpha * (temp_var - Temp_Slope_f));
     
     //Ket qua
     Result = Const_Compensation_Clo*Clo_Var;

@@ -127,9 +127,10 @@
     #define ON_FLASH_BASE               0x08000000
     #define	ADDR_FLASH_END			    0x080FF800
     /*========Add Firmware: Main + Update=========== */
-    #define	ADDR_MAIN_PROGRAM			0x08004000	        //90 Page cho chuong trinh chinh = 180k
-    #define	ADDR_UPDATE_PROGRAM			0x08032000	        //90 page -> End Program = 0x0805F000
-
+//    #define	ADDR_MAIN_PROGRAM			0x08004000	        //90 Page cho chuong trinh chinh = 180k
+//    #define	ADDR_UPDATE_PROGRAM			0x08032000	        //90 page -> End Program = 0x0805F000
+    #define	ADDR_MAIN_PROGRAM			0x08004000	        //150 Page cho chuong trinh chinh = 256k
+    #define	ADDR_UPDATE_PROGRAM			0x080B4800	        //150 page -> End Program = 0x080FF800
     /*========Add Record Mess ================ */
     #define	ADDR_MESS_A_START   		0x08060000	         //92k = 184 rec * 512
     #define	ADDR_MESS_A_STOP			0x08077000
@@ -170,7 +171,7 @@
     #define	FLASH_MAX_MESS_EVENT_SAVE   16
     #define FLASH_MAX_MESS_LOG_SAVE     120
 
-    #define MAX_SIZE_FIRMWARE           180     //Kb
+    #define MAX_SIZE_FIRMWARE           300     //Kb
     #define FIRMWARE_SIZE_PAGE	        MAX_SIZE_FIRMWARE*1024/FLASH_PAGE_SIZE
 
     #define SIZE_DATA_TSVH	            512        
