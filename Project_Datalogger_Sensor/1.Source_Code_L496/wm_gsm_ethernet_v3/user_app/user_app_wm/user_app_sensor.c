@@ -404,7 +404,7 @@ void       AT_CMD_Get_Clo_Const_Temp(sData *str_Receiv, uint16_t Pos)
     uint8_t aTemp[100] = "Clo Const Temp: ";   //13 ki tu dau tien
     sData StrResp = {&aTemp[0], 16}; 
 
-    Convert_Point_Int_To_String_Scale (aTemp, &StrResp.Length_u16, (int)(Const_Temp_Compensation_Chlorine), 0xFC);
+    Convert_Point_Int_To_String_Scale (aTemp, &StrResp.Length_u16, (int)(sConvertChlorine.sConst_Compensation_Temp.Value), sConvertChlorine.sConst_Compensation_Temp.Scale);
     
 	Modem_Respond(PortConfig, StrResp.Data_a8, StrResp.Length_u16, 0);
 }
@@ -1226,6 +1226,7 @@ void Init_AppSensor(void)
     Init_OffsetMeasure();
     Init_Chlorine_Calib();
     Init_Chlorine_PointCalib_1();
+    Init_Const_Temp_Compensation_Chlorine();
 #ifdef USING_AT_CONFIG
     /* regis cb serial */
     CheckList_AT_CONFIG[_GET_FREQ_WARNING_SENSOR].CallBack = AT_CMD_Get_Time_Warning_Sensor;
@@ -1273,6 +1274,37 @@ uint8_t AppSensor_Task(void)
     return Result;
 }
 /*=======================Convert ADC Chlorine====================*/
+void Save_Const_Temp_Compensation_Chlorine(uint16_t value)
+{
+#ifdef USING_INTERNAL_MEM
+    uint8_t aData[8] = {0};
+    uint8_t length = 0;
+    
+    sConvertChlorine.sConst_Compensation_Temp.Value = value;
+    
+    aData[length++] = sConvertChlorine.sConst_Compensation_Temp.Value >> 8;
+    aData[length++] = sConvertChlorine.sConst_Compensation_Temp.Value;
+
+    Save_Array(ADDR_CONST_PH_COMPENSATION, aData, length);
+#endif
+}
+
+void Init_Const_Temp_Compensation_Chlorine(void)
+{
+#ifdef USING_INTERNAL_MEM
+    if(*(__IO uint8_t*)(ADDR_CONST_PH_COMPENSATION) != FLASH_BYTE_EMPTY)
+    {
+        sConvertChlorine.sConst_Compensation_Temp.Value  = *(__IO uint8_t*)(ADDR_CONST_PH_COMPENSATION+2) <<8;
+        sConvertChlorine.sConst_Compensation_Temp.Value |= *(__IO uint8_t*)(ADDR_CONST_PH_COMPENSATION+3);
+    }
+    else
+    {
+        sConvertChlorine.sConst_Compensation_Temp.Value = 220;
+    }
+#endif    
+    sConvertChlorine.sConst_Compensation_Temp.Scale = 0xFC;
+}
+
 void Save_Chlorine_Calib(uint16_t    ADC_Zero,
                          uint16_t    ADC_SLope,
                          int16_t     Clo_Calib_Slope,
@@ -1470,7 +1502,7 @@ float compute_clo_du(uint16_t adc, int16_t pH, int16_t temp_C)
     
 //    ADC_f = Handle_int32_To_Float_Scale(adc, 0xFE); 
     
-    beta_const = Handle_int32_To_Float_Scale(Const_Temp_Compensation_Chlorine, 0xFE);
+    beta_const = Handle_int32_To_Float_Scale(sConvertChlorine.sConst_Compensation_Temp.Value, sConvertChlorine.sConst_Compensation_Temp.Scale);
 
     // Tinh gia tri mg/L tho tu ADC
     clo_tho = ((float)(adc - ADC_Zero) / (float)(ADC_Slope - ADC_Zero))*clo_ref;
@@ -1649,7 +1681,7 @@ float Chlorine_Compensation_pH(uint16_t adc, int16_t pH, int16_t temp_C)
     float a = 0;
     float b = 0;
     
-    alpha = Handle_int32_To_Float_Scale(Const_Temp_Compensation_Chlorine, 0xFC); 
+    alpha = Handle_int32_To_Float_Scale(sConvertChlorine.sConst_Compensation_Temp.Value, sConvertChlorine.sConst_Compensation_Temp.Scale); 
     temp_var = Handle_int32_To_Float_Scale(temp_C, 0xFE); 
     pH_var = Handle_int32_To_Float_Scale(pH, 0xFE);
     
@@ -1668,11 +1700,11 @@ float Chlorine_Compensation_pH(uint16_t adc, int16_t pH, int16_t temp_C)
     //Tinh gia tri Clo Point
     Clo_Point = ((float)(ADC_Point_u - ADC_Zero) / (float)(ADC_Slope_u - ADC_Zero))*Clo_Slope_f;
     // Bu nhiet do
-    if(Const_Temp_Compensation_Chlorine % 10 == 0)
+    if(sConvertChlorine.sConst_Compensation_Temp.Value % 10 == 0)
         Clo_Point = Clo_Point * (1.0f + alpha * (Temp_Point_f - Temp_Slope_f));
-    else if(Const_Temp_Compensation_Chlorine % 10 == 1)
+    else if(sConvertChlorine.sConst_Compensation_Temp.Value % 10 == 1)
         Clo_Point = Clo_Point * (1.0f - alpha * (Temp_Point_f - Temp_Slope_f));
-    else if(Const_Temp_Compensation_Chlorine % 10 == 2)
+    else if(sConvertChlorine.sConst_Compensation_Temp.Value % 10 == 2)
         Clo_Point = Clo_Point / (1.0f - alpha * (Temp_Point_f - Temp_Slope_f));
     else 
         Clo_Point = Clo_Point * (1.0f + alpha * (Temp_Point_f - Temp_Slope_f));
@@ -1688,11 +1720,11 @@ float Chlorine_Compensation_pH(uint16_t adc, int16_t pH, int16_t temp_C)
     //Tinh Clo du
     Clo_Var = ((float)(adc - ADC_Zero) / (float)(ADC_Slope_u - ADC_Zero))*Clo_Slope_f;
     // Bu nhiet do
-    if(Const_Temp_Compensation_Chlorine % 10 == 0)
+    if(sConvertChlorine.sConst_Compensation_Temp.Value % 10 == 0)
         Clo_Var = Clo_Var * (1.0f + alpha * (temp_var - Temp_Slope_f));
-    else if(Const_Temp_Compensation_Chlorine % 10 == 1)
+    else if(sConvertChlorine.sConst_Compensation_Temp.Value % 10 == 1)
         Clo_Var = Clo_Var * (1.0f - alpha * (temp_var - Temp_Slope_f));
-    else if(Const_Temp_Compensation_Chlorine % 10 == 2)
+    else if(sConvertChlorine.sConst_Compensation_Temp.Value % 10 == 2)
         Clo_Var = Clo_Var / (1.0f - alpha * (temp_var - Temp_Slope_f));
     else 
         Clo_Var = Clo_Var / (1.0f + alpha * (temp_var - Temp_Slope_f));
@@ -1761,6 +1793,10 @@ void DCU_Enter_Calib(void)
                                        Value, 
                                        sSensor_Clo.sTemperature_Value.Value,
                                        sSensor_pH.sPH_Value.Value);
+              break;
+              
+            case _DCU_CALIB_CLO_CONST_TEMP:
+              Save_Const_Temp_Compensation_Chlorine(Value);
               break;
               
             default:

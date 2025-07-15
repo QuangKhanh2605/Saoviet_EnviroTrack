@@ -229,7 +229,7 @@ void BUTTON_Enter_Process (void)
                 case __SET_CALIB_SS_CLO:
                     UTIL_MEM_cpy(&sLCD.sScreenBack, &sLCD.sScreenNow, sizeof(sScreenInformation));
                     Display_Set_Screen(&sLCD.sScreenNow, _LCD_SCR_SET_CALIB_SS_CLO, 0,
-                                       __SET_CLO_ZERO, __SET_CLO_ZERO, __SET_CLO_CLB_PH_2,
+                                       __SET_CLO_ZERO, __SET_CLO_ZERO, __SET_CLO_CLB_TEMP,
                                        NULL, 0xF1);
                     break;
                     
@@ -350,7 +350,7 @@ void BUTTON_Enter_Process (void)
                         case 0:
                             UTIL_MEM_cpy(&sLCD.sScreenBack, &sLCD.sScreenNow, sizeof(sScreenInformation));
                             Display_Set_Screen(&sLCD.sScreenNow, _LCD_SCR_SET_CALIB_SS_CLO, (sLCD.sScreenNow.SubIndex_u8+1),
-                                               __SET_CLO_SLOPE, __SET_CLO_SLOPE, __SET_CLO_CLB_PH_2,
+                                               __SET_CLO_SLOPE, __SET_CLO_SLOPE, __SET_CLO_CLB_TEMP,
                                                &sButton.Old_value, 0xF2);
                              sButton.Old_value = sConvertChlorine.Clo_Calib_Slope;
                             break;
@@ -375,7 +375,7 @@ void BUTTON_Enter_Process (void)
                         case 0:
                             UTIL_MEM_cpy(&sLCD.sScreenBack, &sLCD.sScreenNow, sizeof(sScreenInformation));
                             Display_Set_Screen(&sLCD.sScreenNow, _LCD_SCR_SET_CALIB_SS_CLO, (sLCD.sScreenNow.SubIndex_u8+1),
-                                               __SET_CLO_CLB_PH_1, __SET_CLO_CLB_PH_1, __SET_CLO_CLB_PH_2,
+                                               __SET_CLO_CLB_PH_1, __SET_CLO_CLB_PH_1, __SET_CLO_CLB_TEMP,
                                                &sButton.Old_value, 0xF2);
                             sButton.Old_value = sConvertChlorine.Clo_CalibPoint_1;
                             break;
@@ -400,7 +400,7 @@ void BUTTON_Enter_Process (void)
                         case 0:
                             UTIL_MEM_cpy(&sLCD.sScreenBack, &sLCD.sScreenNow, sizeof(sScreenInformation));
                             Display_Set_Screen(&sLCD.sScreenNow, _LCD_SCR_SET_CALIB_SS_CLO, (sLCD.sScreenNow.SubIndex_u8+1),
-                                               __SET_CLO_CLB_PH_2, __SET_CLO_CLB_PH_2, __SET_CLO_CLB_PH_2,
+                                               __SET_CLO_CLB_PH_2, __SET_CLO_CLB_PH_2, __SET_CLO_CLB_TEMP,
                                                &sButton.Old_value, 0xF2);
                              sButton.Old_value = sConvertChlorine.Clo_CalibPoint_2;
                             break;
@@ -418,6 +418,34 @@ void BUTTON_Enter_Process (void)
                             break;
                     }
                     break;
+                    
+                case __SET_CLO_CLB_TEMP:
+                    switch(sLCD.sScreenNow.SubIndex_u8)
+                    {
+                        case 0:
+                            UTIL_MEM_cpy(&sLCD.sScreenBack, &sLCD.sScreenNow, sizeof(sScreenInformation));
+                            Display_Set_Screen(&sLCD.sScreenNow, _LCD_SCR_SET_CALIB_SS_CLO, (sLCD.sScreenNow.SubIndex_u8+1),
+                                               __SET_CLO_CLB_TEMP, __SET_CLO_CLB_TEMP, __SET_CLO_CLB_TEMP,
+                                               &sButton.Old_value, 0xF2);
+                             sButton.Old_value = sConvertChlorine.sConst_Compensation_Temp.Value;
+                            break;
+                            
+                        case 1:
+                            UTIL_MEM_cpy(&sLCD.sScreenBack, &sLCD.sScreenNow, sizeof(sScreenInformation));
+                            Display_Set_Screen(&sLCD.sScreenNow, _LCD_SCR_SET_CALIB_STATE, 0,
+                                               __SET_CALIB_STATE, __SET_CALIB_STATE, __SET_CALIB_STATE,
+                                               NULL, 0xF0);
+                            Old_Value_f = Handle_int32_To_Float_Scale(sButton.Old_value, sSensor_Clo.sSolution_Calibration.Scale);
+                            DCU_Logdata_Calib(_DCU_CALIB_CLO_CONST_TEMP, sButton.Old_value);
+                            break;
+                        
+                        default:
+                            break;
+                    }
+                    break;
+                    
+                    default:
+                      break;
             }
             break;
             
@@ -1027,6 +1055,7 @@ void BUTTON_Up_Process (void)
                     case __SET_CLO_SLOPE:
                     case __SET_CLO_CLB_PH_1:
                     case __SET_CLO_CLB_PH_2:
+                    case __SET_CLO_CLB_TEMP:
                         switch(sLCD.sScreenNow.SubIndex_u8)
                         {
                             case 0:
@@ -1459,6 +1488,7 @@ void BUTTON_Down_Process (void)
                     case __SET_CLO_SLOPE:
                     case __SET_CLO_CLB_PH_1:
                     case __SET_CLO_CLB_PH_2:
+                    case __SET_CLO_CLB_TEMP:
                         switch(sLCD.sScreenNow.SubIndex_u8)
                         {
                             case 0:
@@ -1861,7 +1891,7 @@ void BUTTON_ESC_Process (void)
                     case 1:
                         UTIL_MEM_cpy(&sLCD.sScreenBack, &sLCD.sScreenNow, sizeof(sScreenInformation));
                         Display_Set_Screen(&sLCD.sScreenNow, _LCD_SCR_SET_CALIB_SS_CLO, (sLCD.sScreenNow.SubIndex_u8-1),
-                                           __SET_CLO_SLOPE, __SET_CLO_ZERO, __SET_CLO_CLB_PH_2,
+                                           __SET_CLO_SLOPE, __SET_CLO_ZERO, __SET_CLO_CLB_TEMP,
                                            &sConvertChlorine.Clo_Calib_Slope, 0xF1);
                         break;
                         
@@ -1883,7 +1913,7 @@ void BUTTON_ESC_Process (void)
                     case 1:
                         UTIL_MEM_cpy(&sLCD.sScreenBack, &sLCD.sScreenNow, sizeof(sScreenInformation));
                         Display_Set_Screen(&sLCD.sScreenNow, _LCD_SCR_SET_CALIB_SS_CLO, (sLCD.sScreenNow.SubIndex_u8-1),
-                                           __SET_CLO_CLB_PH_1, __SET_CLO_ZERO, __SET_CLO_CLB_PH_2,
+                                           __SET_CLO_CLB_PH_1, __SET_CLO_ZERO, __SET_CLO_CLB_TEMP,
                                            &sConvertChlorine.Clo_CalibPoint_1 , 0xF1);
                         break;
                         
@@ -1905,8 +1935,30 @@ void BUTTON_ESC_Process (void)
                     case 1:
                         UTIL_MEM_cpy(&sLCD.sScreenBack, &sLCD.sScreenNow, sizeof(sScreenInformation));
                         Display_Set_Screen(&sLCD.sScreenNow, _LCD_SCR_SET_CALIB_SS_CLO, (sLCD.sScreenNow.SubIndex_u8-1),
-                                           __SET_CLO_CLB_PH_2, __SET_CLO_ZERO, __SET_CLO_CLB_PH_2,
+                                           __SET_CLO_CLB_PH_2, __SET_CLO_ZERO, __SET_CLO_CLB_TEMP,
                                            &sConvertChlorine.Clo_CalibPoint_2 , 0xF1);
+                        break;
+                        
+                    default:
+                        break;
+                }
+                break;
+                
+            case __SET_CLO_CLB_TEMP:
+                switch(sLCD.sScreenNow.SubIndex_u8)
+                {
+                    case 0:
+                        Display_Set_Screen(&sLCD.sScreenNow, _LCD_SCR_SET_CALIB, 0,
+                                            __SET_CALIB_SS_CLO, __SET_CALIB_SS_PH, __SET_CALIB_VALUE,
+                                            NULL, 0xF1);
+                        UTIL_MEM_cpy(&sLCD.sScreenBack, &sLCD.sScreenNow, sizeof(sScreenInformation));
+                        break;             
+                      
+                    case 1:
+                        UTIL_MEM_cpy(&sLCD.sScreenBack, &sLCD.sScreenNow, sizeof(sScreenInformation));
+                        Display_Set_Screen(&sLCD.sScreenNow, _LCD_SCR_SET_CALIB_SS_CLO, (sLCD.sScreenNow.SubIndex_u8-1),
+                                           __SET_CLO_CLB_TEMP, __SET_CLO_ZERO, __SET_CLO_CLB_TEMP,
+                                           &sConvertChlorine.sConst_Compensation_Temp.Value , 0xF1);
                         break;
                         
                     default:

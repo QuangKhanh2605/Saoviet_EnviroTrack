@@ -141,6 +141,7 @@ typedef enum
     __SET_CLO_SLOPE,
     __SET_CLO_CLB_PH_1,
     __SET_CLO_CLB_PH_2,
+    __SET_CLO_CLB_TEMP,
     
     __SET_EC_TITLE,
     __SET_EC_CONST,

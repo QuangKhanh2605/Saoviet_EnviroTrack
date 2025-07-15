@@ -47,7 +47,6 @@ Struct_Hanlde_RS485         sHandleRs485 = {0};
 int16_t aPH_ZERO_CALIB[2] = {700, 686};
 int16_t aPH_SLOPE_CALIB[5] = {168, 401, 918, 1010, 1245};
 
-int16_t Const_Temp_Compensation_Chlorine = 0;
 /*========================Function Handle========================*/
 static uint8_t fevent_rs485_entry(uint8_t event)
 {
@@ -375,7 +374,7 @@ void Handle_Data_Trans_SS_Clo(sData *sFrame, uint8_t KindTrans)
             
 //            ph_Send_f = Handle_int32_To_Float_Scale(796, 0xFE); // Khong bu pH cho gia tri Clo du
                    
-            Const_PH_Compensation_Chlorine_f = Handle_int32_To_Float_Scale(Const_Temp_Compensation_Chlorine, 0xFE);
+            Const_PH_Compensation_Chlorine_f = Handle_int32_To_Float_Scale(sConvertChlorine.sConst_Compensation_Temp.Value, sConvertChlorine.sConst_Compensation_Temp.Scale);
             
             if(ph_Send_f  > 7)
             {
@@ -1566,37 +1565,6 @@ void AT_CMD_Get_Measure_Filter (sData *str_Receiv, uint16_t Pos)
 	Modem_Respond(PortConfig, aTemp, length, 0);
 }
 #endif
-/*==================Save and Init Const pH compensation Chlorine===============*/
-void Save_Const_Temp_Compensation_Chlorine(uint16_t value)
-{
-#ifdef USING_INTERNAL_MEM
-    uint8_t aData[8] = {0};
-    uint8_t length = 0;
-    
-    Const_Temp_Compensation_Chlorine = value;
-    
-    aData[length++] = Const_Temp_Compensation_Chlorine >> 8;
-    aData[length++] = Const_Temp_Compensation_Chlorine;
-
-    Save_Array(ADDR_CONST_PH_COMPENSATION, aData, length);
-#endif
-}
-
-void Init_Const_Temp_Compensation_Chlorine(void)
-{
-#ifdef USING_INTERNAL_MEM
-    if(*(__IO uint8_t*)(ADDR_CONST_PH_COMPENSATION) != FLASH_BYTE_EMPTY)
-    {
-        Const_Temp_Compensation_Chlorine  = *(__IO uint8_t*)(ADDR_CONST_PH_COMPENSATION+2) <<8;
-        Const_Temp_Compensation_Chlorine |= *(__IO uint8_t*)(ADDR_CONST_PH_COMPENSATION+3);
-    }
-    else
-    {
-        Const_Temp_Compensation_Chlorine = 220;
-    }
-#endif    
-}
-
 /*==================Handle Task and Init app=================*/
 void Init_UartRs485(void)
 {
@@ -1610,7 +1578,6 @@ void       Init_AppRs485(void)
     Init_UartRs485();
     Init_IdSlave();
     Init_Parameter_Sensor();
-    Init_Const_Temp_Compensation_Chlorine();
 #ifdef USING_AT_CONFIG
     /* regis cb serial */
     CheckList_AT_CONFIG[_GET_STATE_SENSOR].CallBack = AT_CMD_Get_State_Sensor;

@@ -42,6 +42,7 @@ typedef enum
     _DCU_CALIB_CLO_SLOPE,
     _DCU_CALIB_CLO_POINT1,
     _DCU_CALIB_CLO_POINT2,
+    _DCU_CALIB_CLO_CONST_TEMP,
 }eKindDCU_Calib_Sensor;
 
 typedef struct
@@ -64,6 +65,7 @@ typedef struct
 typedef struct 
 {
     Struct_SS_Value sClo_Du;
+    Struct_SS_Value sConst_Compensation_Temp;
     
     uint8_t     Scale;
     uint16_t    Measure_AD;
@@ -102,6 +104,9 @@ void Init_TimeWarningSensor(void);
 void Save_OffsetMeasure(uint8_t KindOffset, Struct_SS_Value sMeasure);
 void Save_OffsetMeasure_cmdAT(uint8_t KindOffset, Struct_SS_Value sValueMeasure);
 void Init_OffsetMeasure(void);
+
+void Save_Const_Temp_Compensation_Chlorine(uint16_t value);
+void Init_Const_Temp_Compensation_Chlorine(void);
 
 void AT_CMD_Get_Time_Warning_Sensor(sData *str, uint16_t Pos);
 void AT_CMD_Set_Time_Warning_Sensor (sData *str_Receiv, uint16_t Pos);

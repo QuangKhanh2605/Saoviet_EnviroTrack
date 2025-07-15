@@ -39,8 +39,8 @@ char aUnitWm[5][10] =
 
 char AnalogType[2][10] = { "pressure", "level"};
 
-uint8_t aPASSWORD[4] = {"1111"};
-uint8_t aPASSCALIB[4] = {"2605"};
+uint8_t aPASSWORD[4] = {"0000"};
+uint8_t aPASSCALIB[4] = {"0000"};
 
 uint8_t aSTT_CALIB_FREE[14]   = {"              "};
 uint8_t aSTT_CALIB_ENTER[14]  = {"Enter to Calib"};
@@ -142,8 +142,9 @@ sOjectInformation   sLCDObject[] =
     {   __SET_CLO_TITLE,    "Chlorine   AD: ",  NULL,   _DTYPE_U16,      0xFE,  NULL,       2,  5,  0x00,    _LCD_SCR_SET_CALIB_SS_CLO},
     {   __SET_CLO_ZERO,     "1.Zero",           NULL,   _DTYPE_STRING,   0,     NULL,       3,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_CLO},
     {   __SET_CLO_SLOPE,    "2.Slope :   ",     NULL,   _DTYPE_I16,      0xFE,  NULL,       4,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_CLO},
-    {   __SET_CLO_CLB_PH_1, "3.Point1:   ",     NULL,   _DTYPE_I16,      0xFE,  NULL,       5,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_CLO},
-    {   __SET_CLO_CLB_PH_2, "3.Point2:   ",     NULL,   _DTYPE_I16,      0xFE,  NULL,       6,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_CLO},
+    {   __SET_CLO_CLB_PH_1, "3.P_pH1 :   ",     NULL,   _DTYPE_I16,      0xFE,  NULL,       5,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_CLO},
+    {   __SET_CLO_CLB_PH_2, "4.P_pH2 :   ",     NULL,   _DTYPE_I16,      0xFE,  NULL,       6,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_CLO},
+    {   __SET_CLO_CLB_TEMP, "5.C_Temp:   ",     NULL,   _DTYPE_I16,      0xFC,  NULL,       7,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_CLO},
     
     {   __SET_EC_TITLE,     "EC         AD: ",  NULL,   _DTYPE_I16,      0x00,  NULL,       2,  5,  0x00,    _LCD_SCR_SET_CALIB_SS_EC},
     {   __SET_EC_CONST,     "1.Const: ",        NULL,   _DTYPE_I16,      0x00,  NULL,       3,  14, 0x00,    _LCD_SCR_SET_CALIB_SS_EC},
@@ -270,6 +271,9 @@ void Display_Init (void)
     
     sLCDObject[__SET_CLO_CLB_PH_2].pData    = &sConvertChlorine.Clo_CalibPoint_2; 
     sLCDObject[__SET_CLO_CLB_PH_2].Scale_u8 = sConvertChlorine.Scale; 
+    
+    sLCDObject[__SET_CLO_CLB_TEMP].pData    = &sConvertChlorine.sConst_Compensation_Temp.Value; 
+    sLCDObject[__SET_CLO_CLB_TEMP].Scale_u8 = sConvertChlorine.sConst_Compensation_Temp.Scale; 
     
     sLCDObject[__SET_EC_TITLE].pData     = &sSensor_EC.sConductivity_Value.Value;
     sLCDObject[__SET_EC_TITLE].Scale_u8  = sSensor_EC.sConductivity_Value.Scale;

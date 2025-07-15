@@ -211,7 +211,6 @@ extern Struct_Sensor_EC            sSensor_EC;
 extern Struct_Sensor_Clo           sSensor_Clo;
 extern Struct_Sensor_Turbidity     sSensor_Turbidity;
 extern Struct_Data_Sensor_Measure  sDataSensorMeasure;
-extern int16_t Const_Temp_Compensation_Chlorine;
 extern Struct_Hanlde_RS485         sHandleRs485;
 /*====================Function Handle====================*/
 
@@ -225,8 +224,6 @@ void       AT_CMD_Get_Measure_Value (sData *str_Receiv, uint16_t Pos);
 void       AT_CMD_Get_Measure_Filter (sData *str_Receiv, uint16_t Pos);
 
 void       Init_Parameter_Sensor(void);
-void       Save_Const_Temp_Compensation_Chlorine(uint16_t value);
-void       Init_Const_Temp_Compensation_Chlorine(void);
 
 //void       Send_RS458_Normal(uint8_t *aData, uint16_t Length_u16);
 void       Init_UartRs485(void);
