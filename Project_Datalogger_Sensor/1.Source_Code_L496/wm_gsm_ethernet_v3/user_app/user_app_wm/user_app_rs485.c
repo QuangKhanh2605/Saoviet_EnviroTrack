@@ -374,13 +374,13 @@ void Handle_Data_Trans_SS_Clo(sData *sFrame, uint8_t KindTrans)
             
 //            ph_Send_f = Handle_int32_To_Float_Scale(796, 0xFE); // Khong bu pH cho gia tri Clo du
                    
-            Const_PH_Compensation_Chlorine_f = Handle_int32_To_Float_Scale(sConvertChlorine.sConst_Compensation_Temp.Value, sConvertChlorine.sConst_Compensation_Temp.Scale);
+//            Const_PH_Compensation_Chlorine_f = Handle_int32_To_Float_Scale(sConvertChlorine.sConst_Compensation_Temp.Value, sConvertChlorine.sConst_Compensation_Temp.Scale);
             
-            if(ph_Send_f  > 7)
-            {
-                ph_Send_f_stamp = (ph_Send_f - 7)/2;
-                ph_Send_f = (ph_Send_f - 7)/(2 - ph_Send_f_stamp) + 7;
-            }
+//            if(ph_Send_f  > 7)
+//            {
+//                ph_Send_f_stamp = (ph_Send_f - 7)/2;
+//                ph_Send_f = (ph_Send_f - 7)/(2 - ph_Send_f_stamp) + 7;
+//            }
             
 //            if(ph_Send_f  > 7)
 //            {
@@ -388,6 +388,8 @@ void Handle_Data_Trans_SS_Clo(sData *sFrame, uint8_t KindTrans)
 //                ph_Send_f = (ph_Send_f - 7)/(Const_PH_Compensation_Chlorine_f - ph_Send_f_stamp) + 7;
 //            }
             
+            ph_Send_f = Handle_int32_To_Float_Scale(700, 0xFE);
+              
             ph_Send_u32 = Handle_Float_To_hexUint32(ph_Send_f);
             aData[0] = ph_Send_u32 >> 8;
             aData[1] = ph_Send_u32;

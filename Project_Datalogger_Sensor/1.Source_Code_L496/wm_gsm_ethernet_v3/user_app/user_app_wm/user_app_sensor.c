@@ -1467,62 +1467,62 @@ void Init_Chlorine_PointCalib_1(void)
 #endif    
 }
 
-float beta_const = 0;
-
-float compute_clo_du(uint16_t adc, int16_t pH, int16_t temp_C) 
-{
-//    float pKa = 0;
-//    float pKa_ref = 0;
-    float clo_bu_pH = 0;
-    float clo_final = 0;
-    float clo_tho = 0;
-  
-    // H?ng s? hi?u chu?n
-    uint16_t ADC_Zero = 0;
-    uint16_t ADC_Slope = 0;
-    float alpha = 0.025f; // h? s? nhi?t d?
-    float T_ref = 0.0f;  // nhi?t d? hi?u chu?n
-    float pH_ref = 0.0f;  // pH hi?u chu?n
-    float clo_ref = 0.0f;   //Gia tri clo 
-    float pH_var = 0;
-    float temp_var = 0;
-
-//    float ADC_f = 0;
-
-    
-    T_ref = Handle_int32_To_Float_Scale(sConvertChlorine.Temp_Calib_Slope, 0xFE);
-    pH_ref = Handle_int32_To_Float_Scale(sConvertChlorine.Ph_Calib_Slope, 0xFE);
-    clo_ref = Handle_int32_To_Float_Scale(sConvertChlorine.Clo_Calib_Slope, 0xFE);
-    
-    ADC_Zero = sConvertChlorine.ADC_Zero;
-    ADC_Slope = sConvertChlorine.ADC_SLope;
-
-    pH_var = Handle_int32_To_Float_Scale(pH, 0xFE);
-    temp_var = Handle_int32_To_Float_Scale(temp_C, 0xFE); 
-    
-//    ADC_f = Handle_int32_To_Float_Scale(adc, 0xFE); 
-    
-    beta_const = Handle_int32_To_Float_Scale(sConvertChlorine.sConst_Compensation_Temp.Value, sConvertChlorine.sConst_Compensation_Temp.Scale);
-
-    // Tinh gia tri mg/L tho tu ADC
-    clo_tho = ((float)(adc - ADC_Zero) / (float)(ADC_Slope - ADC_Zero))*clo_ref;
-
-    // Tính ti le HOCl tai diem do
-//     pKa = 7.54f - 0.01f * (temp_var - 25.0f);
-//     f_do = 1.0f / (1.0f + pow(10.0f, pH_var - pKa));
-
-    // Tính ti le HOCl tai diem hieu chuan (pH = 7.0, T = 28°C)
-//     pKa_ref = 7.54f - 0.01f * (T_ref - 25.0f);
-//     f_ref = 1.0f / (1.0f + powf(10.0f, pH_ref - pKa_ref));
-
-    // Bu pH
-     clo_bu_pH = clo_tho * (powf(pH_var, beta_const*(pH_ref - pH_var)));
-
-    // Bu nhiet do
-     clo_final = clo_bu_pH / (1.0f + alpha * (temp_var - T_ref));
-
-    return clo_final;
-}
+//float beta_const = 0;
+//
+//float compute_clo_du(uint16_t adc, int16_t pH, int16_t temp_C) 
+//{
+////    float pKa = 0;
+////    float pKa_ref = 0;
+//    float clo_bu_pH = 0;
+//    float clo_final = 0;
+//    float clo_tho = 0;
+//  
+//    // H?ng s? hi?u chu?n
+//    uint16_t ADC_Zero = 0;
+//    uint16_t ADC_Slope = 0;
+//    float alpha = 0.025f; // h? s? nhi?t d?
+//    float T_ref = 0.0f;  // nhi?t d? hi?u chu?n
+//    float pH_ref = 0.0f;  // pH hi?u chu?n
+//    float clo_ref = 0.0f;   //Gia tri clo 
+//    float pH_var = 0;
+//    float temp_var = 0;
+//
+////    float ADC_f = 0;
+//
+//    
+//    T_ref = Handle_int32_To_Float_Scale(sConvertChlorine.Temp_Calib_Slope, 0xFE);
+//    pH_ref = Handle_int32_To_Float_Scale(sConvertChlorine.Ph_Calib_Slope, 0xFE);
+//    clo_ref = Handle_int32_To_Float_Scale(sConvertChlorine.Clo_Calib_Slope, 0xFE);
+//    
+//    ADC_Zero = sConvertChlorine.ADC_Zero;
+//    ADC_Slope = sConvertChlorine.ADC_SLope;
+//
+//    pH_var = Handle_int32_To_Float_Scale(pH, 0xFE);
+//    temp_var = Handle_int32_To_Float_Scale(temp_C, 0xFE); 
+//    
+////    ADC_f = Handle_int32_To_Float_Scale(adc, 0xFE); 
+//    
+//    beta_const = Handle_int32_To_Float_Scale(sConvertChlorine.sConst_Compensation_Temp.Value, sConvertChlorine.sConst_Compensation_Temp.Scale);
+//
+//    // Tinh gia tri mg/L tho tu ADC
+//    clo_tho = ((float)(adc - ADC_Zero) / (float)(ADC_Slope - ADC_Zero))*clo_ref;
+//
+//    // Tính ti le HOCl tai diem do
+////     pKa = 7.54f - 0.01f * (temp_var - 25.0f);
+////     f_do = 1.0f / (1.0f + pow(10.0f, pH_var - pKa));
+//
+//    // Tính ti le HOCl tai diem hieu chuan (pH = 7.0, T = 28°C)
+////     pKa_ref = 7.54f - 0.01f * (T_ref - 25.0f);
+////     f_ref = 1.0f / (1.0f + powf(10.0f, pH_ref - pKa_ref));
+//
+//    // Bu pH
+//     clo_bu_pH = clo_tho * (powf(pH_var, beta_const*(pH_ref - pH_var)));
+//
+//    // Bu nhiet do
+//     clo_final = clo_bu_pH / (1.0f + alpha * (temp_var - T_ref));
+//
+//    return clo_final;
+//}
 
     
 float Chlorine_Compensation_pH(uint16_t adc, int16_t pH, int16_t temp_C) 
@@ -1707,7 +1707,7 @@ float Chlorine_Compensation_pH(uint16_t adc, int16_t pH, int16_t temp_C)
     else if(sConvertChlorine.sConst_Compensation_Temp.Value % 10 == 2)
         Clo_Point = Clo_Point / (1.0f - alpha * (Temp_Point_f - Temp_Slope_f));
     else 
-        Clo_Point = Clo_Point * (1.0f + alpha * (Temp_Point_f - Temp_Slope_f));
+        Clo_Point = Clo_Point / (1.0f + alpha * (Temp_Point_f - Temp_Slope_f));
       
     //He so bu pH tai point
     Const_Compensation_Point = Clo_Point_f/Clo_Point;

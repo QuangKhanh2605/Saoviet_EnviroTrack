@@ -39,8 +39,8 @@ char aUnitWm[5][10] =
 
 char AnalogType[2][10] = { "pressure", "level"};
 
-uint8_t aPASSWORD[4] = {"0000"};
-uint8_t aPASSCALIB[4] = {"0000"};
+uint8_t aPASSWORD[4] = {"1111"};
+uint8_t aPASSCALIB[4] = {"2605"};
 
 uint8_t aSTT_CALIB_FREE[14]   = {"              "};
 uint8_t aSTT_CALIB_ENTER[14]  = {"Enter to Calib"};

@@ -146,7 +146,7 @@ void Save_Chlorine_Calib(uint16_t    ADC_Zero,
                          int16_t     Clo_Calib_Slope,
                          int16_t     Temp_Calib_Slope,
                          int16_t     Ph_Calib_Slope);
-float compute_clo_du(uint16_t adc, int16_t pH, int16_t temp_C);
+//float compute_clo_du(uint16_t adc, int16_t pH, int16_t temp_C);
 
 void Save_Chlorine_PointCalib(uint16_t    ADC_Point_1,
                               int16_t     Clo_Point_1,
