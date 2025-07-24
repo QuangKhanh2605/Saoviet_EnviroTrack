@@ -1363,10 +1363,10 @@ void Init_Chlorine_Calib(void)
     else
     {
         sConvertChlorine.ADC_Zero = 400;
-        sConvertChlorine.ADC_SLope = 867;
-        sConvertChlorine.Clo_Calib_Slope = 88;
-        sConvertChlorine.Temp_Calib_Slope = 2717;
-        sConvertChlorine.Ph_Calib_Slope = 716;
+        sConvertChlorine.ADC_SLope = 1185;
+        sConvertChlorine.Clo_Calib_Slope = 114;
+        sConvertChlorine.Temp_Calib_Slope = 2794;
+        sConvertChlorine.Ph_Calib_Slope = 745;
     }
 #endif    
 }
@@ -1454,15 +1454,15 @@ void Init_Chlorine_PointCalib_1(void)
     }
     else
     {
-        sConvertChlorine.ADC_CalibPoint_1 = 922;
-        sConvertChlorine.Clo_CalibPoint_1 = 91;
-        sConvertChlorine.Temp_CalibPoint_1 = 2685;
-        sConvertChlorine.Ph_CalibPoint_1 = 666;
+        sConvertChlorine.ADC_CalibPoint_1 = 1323;
+        sConvertChlorine.Clo_CalibPoint_1 = 114;
+        sConvertChlorine.Temp_CalibPoint_1 = 2749;
+        sConvertChlorine.Ph_CalibPoint_1 = 698;
         
-        sConvertChlorine.ADC_CalibPoint_2 = 906;
-        sConvertChlorine.Clo_CalibPoint_2 = 111;
-        sConvertChlorine.Temp_CalibPoint_2 = 2765;
-        sConvertChlorine.Ph_CalibPoint_2 = 773;
+        sConvertChlorine.ADC_CalibPoint_2 = 1128;
+        sConvertChlorine.Clo_CalibPoint_2 = 112;
+        sConvertChlorine.Temp_CalibPoint_2 = 2856;
+        sConvertChlorine.Ph_CalibPoint_2 = 790;
     }
 #endif    
 }

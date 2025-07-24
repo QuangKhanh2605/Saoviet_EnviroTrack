@@ -507446,7 +507446,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@46620@F@Save_Chlorine_PointCalib@aData",
+    "ID": "c:user_app_sensor.c@46622@F@Save_Chlorine_PointCalib@aData",
     "What": "Variable",
     "defdec": "Def",
     "display": "aData",
@@ -507460,7 +507460,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@46650@F@Save_Chlorine_PointCalib@length",
+    "ID": "c:user_app_sensor.c@46652@F@Save_Chlorine_PointCalib@length",
     "What": "Variable",
     "defdec": "Def",
     "display": "length",
@@ -507502,7 +507502,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52145@F@Chlorine_Compensation_pH@Result",
+    "ID": "c:user_app_sensor.c@52150@F@Chlorine_Compensation_pH@Result",
     "What": "Variable",
     "defdec": "Def",
     "display": "Result",
@@ -507516,7 +507516,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52170@F@Chlorine_Compensation_pH@alpha",
+    "ID": "c:user_app_sensor.c@52175@F@Chlorine_Compensation_pH@alpha",
     "What": "Variable",
     "defdec": "Def",
     "display": "alpha",
@@ -507530,7 +507530,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52215@F@Chlorine_Compensation_pH@Const_Compensation_Point",
+    "ID": "c:user_app_sensor.c@52220@F@Chlorine_Compensation_pH@Const_Compensation_Point",
     "What": "Variable",
     "defdec": "Def",
     "display": "Const_Compensation_Point",
@@ -507544,7 +507544,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52256@F@Chlorine_Compensation_pH@Const_Compensation_Clo",
+    "ID": "c:user_app_sensor.c@52261@F@Chlorine_Compensation_pH@Const_Compensation_Clo",
     "What": "Variable",
     "defdec": "Def",
     "display": "Const_Compensation_Clo",
@@ -507558,7 +507558,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52295@F@Chlorine_Compensation_pH@temp_var",
+    "ID": "c:user_app_sensor.c@52300@F@Chlorine_Compensation_pH@temp_var",
     "What": "Variable",
     "defdec": "Def",
     "display": "temp_var",
@@ -507572,7 +507572,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52320@F@Chlorine_Compensation_pH@pH_var",
+    "ID": "c:user_app_sensor.c@52325@F@Chlorine_Compensation_pH@pH_var",
     "What": "Variable",
     "defdec": "Def",
     "display": "pH_var",
@@ -507586,7 +507586,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52343@F@Chlorine_Compensation_pH@Clo_Point",
+    "ID": "c:user_app_sensor.c@52348@F@Chlorine_Compensation_pH@Clo_Point",
     "What": "Variable",
     "defdec": "Def",
     "display": "Clo_Point",
@@ -507600,7 +507600,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52369@F@Chlorine_Compensation_pH@Clo_Var",
+    "ID": "c:user_app_sensor.c@52374@F@Chlorine_Compensation_pH@Clo_Var",
     "What": "Variable",
     "defdec": "Def",
     "display": "Clo_Var",
@@ -507614,7 +507614,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52399@F@Chlorine_Compensation_pH@ADC_Zero",
+    "ID": "c:user_app_sensor.c@52404@F@Chlorine_Compensation_pH@ADC_Zero",
     "What": "Variable",
     "defdec": "Def",
     "display": "ADC_Zero",
@@ -507628,7 +507628,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52433@F@Chlorine_Compensation_pH@ADC_Slope_u",
+    "ID": "c:user_app_sensor.c@52438@F@Chlorine_Compensation_pH@ADC_Slope_u",
     "What": "Variable",
     "defdec": "Def",
     "display": "ADC_Slope_u",
@@ -507642,7 +507642,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52464@F@Chlorine_Compensation_pH@Clo_Slope_f",
+    "ID": "c:user_app_sensor.c@52469@F@Chlorine_Compensation_pH@Clo_Slope_f",
     "What": "Variable",
     "defdec": "Def",
     "display": "Clo_Slope_f",
@@ -507656,7 +507656,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52492@F@Chlorine_Compensation_pH@Temp_Slope_f",
+    "ID": "c:user_app_sensor.c@52497@F@Chlorine_Compensation_pH@Temp_Slope_f",
     "What": "Variable",
     "defdec": "Def",
     "display": "Temp_Slope_f",
@@ -507670,7 +507670,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52521@F@Chlorine_Compensation_pH@pH_Slope_f",
+    "ID": "c:user_app_sensor.c@52526@F@Chlorine_Compensation_pH@pH_Slope_f",
     "What": "Variable",
     "defdec": "Def",
     "display": "pH_Slope_f",
@@ -507684,7 +507684,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52554@F@Chlorine_Compensation_pH@ADC_Point_u",
+    "ID": "c:user_app_sensor.c@52559@F@Chlorine_Compensation_pH@ADC_Point_u",
     "What": "Variable",
     "defdec": "Def",
     "display": "ADC_Point_u",
@@ -507698,7 +507698,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52585@F@Chlorine_Compensation_pH@Clo_Point_f",
+    "ID": "c:user_app_sensor.c@52590@F@Chlorine_Compensation_pH@Clo_Point_f",
     "What": "Variable",
     "defdec": "Def",
     "display": "Clo_Point_f",
@@ -507712,7 +507712,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52613@F@Chlorine_Compensation_pH@Temp_Point_f",
+    "ID": "c:user_app_sensor.c@52618@F@Chlorine_Compensation_pH@Temp_Point_f",
     "What": "Variable",
     "defdec": "Def",
     "display": "Temp_Point_f",
@@ -507726,7 +507726,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52642@F@Chlorine_Compensation_pH@pH_Point_f",
+    "ID": "c:user_app_sensor.c@52647@F@Chlorine_Compensation_pH@pH_Point_f",
     "What": "Variable",
     "defdec": "Def",
     "display": "pH_Point_f",
@@ -507740,7 +507740,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52675@F@Chlorine_Compensation_pH@stamp_ADC_Slope_u",
+    "ID": "c:user_app_sensor.c@52680@F@Chlorine_Compensation_pH@stamp_ADC_Slope_u",
     "What": "Variable",
     "defdec": "Def",
     "display": "stamp_ADC_Slope_u",
@@ -507754,7 +507754,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52712@F@Chlorine_Compensation_pH@stamp_Clo_Slope_f",
+    "ID": "c:user_app_sensor.c@52717@F@Chlorine_Compensation_pH@stamp_Clo_Slope_f",
     "What": "Variable",
     "defdec": "Def",
     "display": "stamp_Clo_Slope_f",
@@ -507768,7 +507768,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52748@F@Chlorine_Compensation_pH@stamp_Temp_Slope_f",
+    "ID": "c:user_app_sensor.c@52753@F@Chlorine_Compensation_pH@stamp_Temp_Slope_f",
     "What": "Variable",
     "defdec": "Def",
     "display": "stamp_Temp_Slope_f",
@@ -507782,7 +507782,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52785@F@Chlorine_Compensation_pH@stamp_pH_Slope_f",
+    "ID": "c:user_app_sensor.c@52790@F@Chlorine_Compensation_pH@stamp_pH_Slope_f",
     "What": "Variable",
     "defdec": "Def",
     "display": "stamp_pH_Slope_f",
@@ -507796,7 +507796,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52826@F@Chlorine_Compensation_pH@stamp_ADC_Point_u",
+    "ID": "c:user_app_sensor.c@52831@F@Chlorine_Compensation_pH@stamp_ADC_Point_u",
     "What": "Variable",
     "defdec": "Def",
     "display": "stamp_ADC_Point_u",
@@ -507810,7 +507810,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52863@F@Chlorine_Compensation_pH@stamp_Clo_Point_f",
+    "ID": "c:user_app_sensor.c@52868@F@Chlorine_Compensation_pH@stamp_Clo_Point_f",
     "What": "Variable",
     "defdec": "Def",
     "display": "stamp_Clo_Point_f",
@@ -507824,7 +507824,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52899@F@Chlorine_Compensation_pH@stamp_Temp_Point_f",
+    "ID": "c:user_app_sensor.c@52904@F@Chlorine_Compensation_pH@stamp_Temp_Point_f",
     "What": "Variable",
     "defdec": "Def",
     "display": "stamp_Temp_Point_f",
@@ -507838,7 +507838,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@52936@F@Chlorine_Compensation_pH@stamp_pH_Point_f",
+    "ID": "c:user_app_sensor.c@52941@F@Chlorine_Compensation_pH@stamp_pH_Point_f",
     "What": "Variable",
     "defdec": "Def",
     "display": "stamp_pH_Point_f",
@@ -507852,7 +507852,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@53041@F@Chlorine_Compensation_pH@array_stt",
+    "ID": "c:user_app_sensor.c@53046@F@Chlorine_Compensation_pH@array_stt",
     "What": "Variable",
     "defdec": "Def",
     "display": "array_stt",
@@ -507866,7 +507866,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@53073@F@Chlorine_Compensation_pH@array_pH",
+    "ID": "c:user_app_sensor.c@53078@F@Chlorine_Compensation_pH@array_pH",
     "What": "Variable",
     "defdec": "Def",
     "display": "array_pH",
@@ -507880,7 +507880,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@53359@F@Chlorine_Compensation_pH@i",
+    "ID": "c:user_app_sensor.c@53364@F@Chlorine_Compensation_pH@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
@@ -507894,7 +507894,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@53406@F@Chlorine_Compensation_pH@j",
+    "ID": "c:user_app_sensor.c@53411@F@Chlorine_Compensation_pH@j",
     "What": "Variable",
     "defdec": "Def",
     "display": "j",
@@ -507908,7 +507908,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@53527@F@Chlorine_Compensation_pH@temp",
+    "ID": "c:user_app_sensor.c@53532@F@Chlorine_Compensation_pH@temp",
     "What": "Variable",
     "defdec": "Def",
     "display": "temp",
@@ -507922,7 +507922,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@53885@F@Chlorine_Compensation_pH@arr_Slope",
+    "ID": "c:user_app_sensor.c@53890@F@Chlorine_Compensation_pH@arr_Slope",
     "What": "Variable",
     "defdec": "Def",
     "display": "arr_Slope",
@@ -507936,7 +507936,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@53913@F@Chlorine_Compensation_pH@arr_Point",
+    "ID": "c:user_app_sensor.c@53918@F@Chlorine_Compensation_pH@arr_Point",
     "What": "Variable",
     "defdec": "Def",
     "display": "arr_Point",
@@ -507950,7 +507950,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@56642@F@Chlorine_Compensation_pH@a",
+    "ID": "c:user_app_sensor.c@56647@F@Chlorine_Compensation_pH@a",
     "What": "Variable",
     "defdec": "Def",
     "display": "a",
@@ -507964,7 +507964,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@56660@F@Chlorine_Compensation_pH@b",
+    "ID": "c:user_app_sensor.c@56665@F@Chlorine_Compensation_pH@b",
     "What": "Variable",
     "defdec": "Def",
     "display": "b",
@@ -508006,7 +508006,7 @@
     "scope": null
   },
   {
-    "ID": "c:user_app_sensor.c@59576@F@DCU_Enter_Calib@Value",
+    "ID": "c:user_app_sensor.c@59581@F@DCU_Enter_Calib@Value",
     "What": "Variable",
     "defdec": "Def",
     "display": "Value",

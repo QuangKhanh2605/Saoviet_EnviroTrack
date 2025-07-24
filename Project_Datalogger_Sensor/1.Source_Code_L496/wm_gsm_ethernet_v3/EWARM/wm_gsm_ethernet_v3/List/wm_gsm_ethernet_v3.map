@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.40.2.214/W32 for ARM                  17/Jul/2025  16:52:20
+# IAR ELF Linker V8.40.2.214/W32 for ARM                  22/Jul/2025  09:15:24
 # Copyright 2007-2019 IAR Systems AB.
 #
 #    Output file  =
@@ -8,7 +8,7 @@
 #    Map file     =
 #        D:\Saoviet_Git\Saoviet_EnviroTrack\Project_Datalogger_Sensor\1.Source_Code_L496\wm_gsm_ethernet_v3\EWARM\wm_gsm_ethernet_v3\List\wm_gsm_ethernet_v3.map
 #    Command line =
-#        -f C:\Users\PC\AppData\Local\Temp\EWB857.tmp
+#        -f C:\Users\PC\AppData\Local\Temp\EW54A9.tmp
 #        (D:\Saoviet_Git\Saoviet_EnviroTrack\Project_Datalogger_Sensor\1.Source_Code_L496\wm_gsm_ethernet_v3\EWARM\wm_gsm_ethernet_v3\Obj\adc.o
 #        D:\Saoviet_Git\Saoviet_EnviroTrack\Project_Datalogger_Sensor\1.Source_Code_L496\wm_gsm_ethernet_v3\EWARM\wm_gsm_ethernet_v3\Obj\button.o
 #        D:\Saoviet_Git\Saoviet_EnviroTrack\Project_Datalogger_Sensor\1.Source_Code_L496\wm_gsm_ethernet_v3\EWARM\wm_gsm_ethernet_v3\Obj\cat24mxx.o
@@ -173,7 +173,7 @@ initialize by copy { rw };
   .intvec            ro code   0x800'4000     0x1ac  startup_stm32l496xx.o [1]
                              - 0x800'41ac     0x1ac
 
-"P1":                                      0x2'e31b
+"P1":                                      0x2'e316
   .text              ro code   0x800'41ac    0x38bc  user_app_wm.o [1]
   .text              ro code   0x800'7a68     0x32c  user_timer.o [1]
   .text              ro code   0x800'7d94       0xc  stm32l4xx_hal.o [1]
@@ -1141,8 +1141,8 @@ initialize by copy { rw };
   .text              ro code   0x803'1654       0x4  startup_stm32l496xx.o [1]
   .rodata            const     0x803'1658       0x0  zero_init3.o [4]
   .rodata            const     0x803'1658       0x0  lz77_init_single.o [4]
-  Initializer bytes  const     0x803'1658     0xe6f  <for P2-1>
-                             - 0x803'24c7  0x2'e31b
+  Initializer bytes  const     0x803'1658     0xe6a  <for P2-1>
+                             - 0x803'24c2  0x2'e316
 
 "P2", part 1 of 3:                           0x28cc
   P2-1                        0x2000'0000    0x28cc  <Init block>
@@ -1570,7 +1570,7 @@ Unused ranges:
          From           To      Size
          ----           --      ----
    0x800'0000   0x800'3fff    0x4000
-   0x803'24c7   0x80f'ffff  0xc'db39
+   0x803'24c2   0x80f'ffff  0xc'db3e
   0x2000'9f80  0x2004'ffff  0x4'6080
 
 
@@ -1585,8 +1585,8 @@ Zero (__iar_zero_init3)
           0x2000'28cc  0x6cb3
 
 Copy/lz77 (__iar_lz77_init_single3)
-    1 source range, total size 0xe6f (35% of destination):
-           0x803'1658   0xe6f
+    1 source range, total size 0xe6a (35% of destination):
+           0x803'1658   0xe6a
     1 destination range, total size 0x28cc:
           0x2000'0000  0x28cc
 
@@ -1610,8 +1610,8 @@ D:\Saoviet_Git\Saoviet_EnviroTrack\Project_Datalogger_Sensor\1.Source_Code_L496\
     ST7565R.o                     336
     STM32L4.o                     172
     adc.o                         472               104
-    button.o                   10'388       12      143
-    cat24mxx.o                    808       83    1'117
+    button.o                   10'388       11      143
+    cat24mxx.o                    808       84    1'117
     dhcp.o                      4'340       30       83
     dma.o                         112
     dns.o                       1'232                12
@@ -1620,7 +1620,7 @@ D:\Saoviet_Git\Saoviet_EnviroTrack\Project_Datalogger_Sensor\1.Source_Code_L496\
     gpio.o                        880
     graphics.o                    652
     i2c.o                         244                84
-    lcd_display.o               4'888    4'401    5'448
+    lcd_display.o               4'888    4'399    5'448
     level_SUP_PX261_B.o            72                 8
     level_S_YW_01B.o               88                 8
     level_ultrasonic.o             40                 8
@@ -1664,17 +1664,17 @@ D:\Saoviet_Git\Saoviet_EnviroTrack\Project_Datalogger_Sensor\1.Source_Code_L496\
     usart.o                     1'312               832
     user_adc.o                    332
     user_adv_trace.o              732             1'560
-    user_app_comm.o             2'456      702    1'468
-    user_app_ethernet.o         8'244    1'784    4'922
-    user_app_mem.o              4'740      902    5'818
-    user_app_rs485.o            6'984      346      317
-    user_app_sensor.o           9'360      738      394
+    user_app_comm.o             2'456      701    1'468
+    user_app_ethernet.o         8'244    1'785    4'922
+    user_app_mem.o              4'740      901    5'818
+    user_app_rs485.o            6'984      347      317
+    user_app_sensor.o           9'360      737      394
     user_app_sim.o              3'968      737    1'364
     user_app_wm.o              14'524    1'164    1'153
     user_at_serial.o                     1'582    1'217
     user_convert_variable.o       964
     user_ec200u.o               2'434    4'144      115
-    user_internal_mem.o           272       12    1'112
+    user_internal_mem.o           272       11    1'112
     user_log.o                    204       20
     user_lpm.o                    340       24        5
     user_lptim.o                  344                 8
@@ -1684,12 +1684,12 @@ D:\Saoviet_Git\Saoviet_EnviroTrack\Project_Datalogger_Sensor\1.Source_Code_L496\
     user_obis_sv.o                650
     user_rs485.o                1'380       22    1'246
     user_rtc.o                    856      100       77
-    user_sim.o                  2'088      118    1'522
+    user_sim.o                  2'088      117    1'522
     user_sim_common.o           2'414      129      325
     user_string.o                 678
-    user_time.o                   668        8       24
+    user_time.o                   668        9       24
     user_timer.o                  812                 4
-    user_tiny_vsnprintf.o         728       91        8
+    user_tiny_vsnprintf.o         728       90        8
     user_uart.o                   360       28        3
     user_util.o                 1'610       25       25
     user_wm_digital.o             896      256      656
@@ -1698,7 +1698,7 @@ D:\Saoviet_Git\Saoviet_EnviroTrack\Project_Datalogger_Sensor\1.Source_Code_L496\
     wm_mt100.o                    524      103       68
     woteck_wm.o                   436       33       40
     ---------------------------------------------------
-    Total:                    146'922   21'764   37'635
+    Total:                    146'922   21'759   37'635
 
 dl7M_tlf.a: [2]
     abort.o                         6
@@ -1782,7 +1782,7 @@ shb_l.a: [5]
     Gaps                           55       10
     Linker created                          32    2'560
 -------------------------------------------------------
-    Grand Total:              166'567   23'072   40'831
+    Grand Total:              166'567   23'067   40'831
 
 
 *******************************************************************************
@@ -3839,7 +3839,7 @@ writeMQTTString          0x802'c271    0x42  Code  Gb  MQTTPacket.o [1]
 [5] = shb_l.a
 
   166'567 bytes of readonly  code memory
-   23'072 bytes of readonly  data memory
+   23'067 bytes of readonly  data memory
    40'831 bytes of readwrite data memory
 
 Errors: none

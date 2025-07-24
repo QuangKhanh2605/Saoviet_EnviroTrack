@@ -20,7 +20,7 @@
         <LeaveTargetRunning>_ 0</LeaveTargetRunning>
     </StLinkDriver>
     <DebugChecksum>
-        <Checksum>4225588700</Checksum>
+        <Checksum>1583345247</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -137,36 +137,38 @@
         <Fmt24>{W}42:__SET_PULSE_SET2_4	3	0</Fmt24>
         <Fmt25>{W}42:__SET_REQ_1	3	0</Fmt25>
         <Fmt26>{W}42:__SET_REQ_2_1	3	0</Fmt26>
-        <Fmt27>{W}42:check_data	4	0</Fmt27>
-        <Fmt28>{W}42:count_init	3	0</Fmt28>
-        <Fmt29>{W}42:num	4	0</Fmt29>
-        <Fmt30>{W}42:ph_Send_f	4	0</Fmt30>
-        <Fmt31>{W}42:sAppEthVar.Status_u8	3	0</Fmt31>
-        <Fmt32>{W}42:sAppMem.sReqATcmd.Status_u8	3	0</Fmt32>
-        <Fmt33>{W}42:sButton.IndexMax	3	0</Fmt33>
-        <Fmt34>{W}42:sButton.IndexMin	3	0</Fmt34>
-        <Fmt35>{W}42:sButton.Old_value	3	0</Fmt35>
-        <Fmt36>{W}42:sButton.Status	3	0</Fmt36>
-        <Fmt37>{W}42:sButton.index_para	3	0</Fmt37>
-        <Fmt38>{W}42:sLCD.sScreenNow.Index_u8	3	0</Fmt38>
-        <Fmt39>{W}42:sLCD.sScreenNow.Para_u8	3	0</Fmt39>
-        <Fmt40>{W}42:sLCD.sScreenNow.SubIndex_u8	3	0</Fmt40>
-        <Fmt41>{W}42:sLCDInfor.ScreenIndex_u8	3	0</Fmt41>
-        <Fmt42>{W}42:sLCDInfor.ScreenNow_u8	3	0</Fmt42>
-        <Fmt43>{W}42:sLCDObject[__SET_PULSE_SET2_1].Scale_u8	3	0</Fmt43>
-        <Fmt44>{W}42:sLCDObject[__SET_PULSE_SET2_4].Col_u8	3	0</Fmt44>
-        <Fmt45>{W}42:sLCDObject[sLCD.sScreenNow.Para_u8].Mode_u8	4	0</Fmt45>
-        <Fmt46>{W}42:sMQTT.Status_u8	3	0</Fmt46>
-        <Fmt47>{W}42:sModemInfor.sFrequence.DurOnline_u32	3	0</Fmt47>
-        <Fmt48>{W}42:sOnFlash.Status_u8	3	0</Fmt48>
-        <Fmt49>{W}42:sSimFwUpdate.LasCrcCal_u8	3	0</Fmt49>
-        <Fmt50>{W}42:sSimFwUpdate.LastCrcFile_u8	3	0</Fmt50>
-        <Fmt51>{W}42:sWmDigVar.nModbus_u8	3	0</Fmt51>
-        <Fmt52>{W}42:test1	4	0</Fmt52>
-        <Fmt53>{W}42:test_data1	4	0</Fmt53>
-        <Fmt54>{W}42:test_old_value	4	0</Fmt54>
-        <Fmt55>{W}42:tester	3	0</Fmt55>
-        <Fmt56>{W}42:tmpPHYStatus	3	0</Fmt56>
+        <Fmt27>{W}42:arr_Point	3	0</Fmt27>
+        <Fmt28>{W}42:arr_Slope	3	0</Fmt28>
+        <Fmt29>{W}42:check_data	4	0</Fmt29>
+        <Fmt30>{W}42:count_init	3	0</Fmt30>
+        <Fmt31>{W}42:num	4	0</Fmt31>
+        <Fmt32>{W}42:ph_Send_f	4	0</Fmt32>
+        <Fmt33>{W}42:sAppEthVar.Status_u8	3	0</Fmt33>
+        <Fmt34>{W}42:sAppMem.sReqATcmd.Status_u8	3	0</Fmt34>
+        <Fmt35>{W}42:sButton.IndexMax	3	0</Fmt35>
+        <Fmt36>{W}42:sButton.IndexMin	3	0</Fmt36>
+        <Fmt37>{W}42:sButton.Old_value	3	0</Fmt37>
+        <Fmt38>{W}42:sButton.Status	3	0</Fmt38>
+        <Fmt39>{W}42:sButton.index_para	3	0</Fmt39>
+        <Fmt40>{W}42:sLCD.sScreenNow.Index_u8	3	0</Fmt40>
+        <Fmt41>{W}42:sLCD.sScreenNow.Para_u8	3	0</Fmt41>
+        <Fmt42>{W}42:sLCD.sScreenNow.SubIndex_u8	3	0</Fmt42>
+        <Fmt43>{W}42:sLCDInfor.ScreenIndex_u8	3	0</Fmt43>
+        <Fmt44>{W}42:sLCDInfor.ScreenNow_u8	3	0</Fmt44>
+        <Fmt45>{W}42:sLCDObject[__SET_PULSE_SET2_1].Scale_u8	3	0</Fmt45>
+        <Fmt46>{W}42:sLCDObject[__SET_PULSE_SET2_4].Col_u8	3	0</Fmt46>
+        <Fmt47>{W}42:sLCDObject[sLCD.sScreenNow.Para_u8].Mode_u8	4	0</Fmt47>
+        <Fmt48>{W}42:sMQTT.Status_u8	3	0</Fmt48>
+        <Fmt49>{W}42:sModemInfor.sFrequence.DurOnline_u32	3	0</Fmt49>
+        <Fmt50>{W}42:sOnFlash.Status_u8	3	0</Fmt50>
+        <Fmt51>{W}42:sSimFwUpdate.LasCrcCal_u8	3	0</Fmt51>
+        <Fmt52>{W}42:sSimFwUpdate.LastCrcFile_u8	3	0</Fmt52>
+        <Fmt53>{W}42:sWmDigVar.nModbus_u8	3	0</Fmt53>
+        <Fmt54>{W}42:test1	4	0</Fmt54>
+        <Fmt55>{W}42:test_data1	4	0</Fmt55>
+        <Fmt56>{W}42:test_old_value	4	0</Fmt56>
+        <Fmt57>{W}42:tester	3	0</Fmt57>
+        <Fmt58>{W}42:tmpPHYStatus	3	0</Fmt58>
     </watch_formats>
     <Trace2>
         <Enabled>0</Enabled>
