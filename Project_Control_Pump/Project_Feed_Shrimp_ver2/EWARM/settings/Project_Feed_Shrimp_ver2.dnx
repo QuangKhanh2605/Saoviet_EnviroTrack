@@ -20,15 +20,15 @@
         <LeaveTargetRunning>_ 0</LeaveTargetRunning>
     </StLinkDriver>
     <DebugChecksum>
-        <Checksum>2657073690</Checksum>
+        <Checksum>3585222192</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
         <StopOnThrow>_ 0</StopOnThrow>
     </Exceptions>
     <Disassembly>
-        <MixedMode>1</MixedMode>
         <InstrCount>0</InstrCount>
+        <MixedMode>1</MixedMode>
     </Disassembly>
     <CodeCoverage>
         <Enabled>0</Enabled>
@@ -138,7 +138,9 @@
         <Count>0</Count>
     </Breakpoints2>
     <Aliases>
-        <Count>0</Count>
+        <A0>_ "D:\Project_STM32\Saoviet_Control_Ultrasonic\Project_Feed_Shrimp_ver2\user_app\user_app_button\user_app_button.c" ""</A0>
+        <A1>_ "D:\Project_STM32\Saoviet_Control_Ultrasonic\Project_Feed_Shrimp_ver2\user_app\user_app_lcd\user_app_lcd.c" ""</A1>
+        <Count>2</Count>
         <SuppressDialog>0</SuppressDialog>
     </Aliases>
 </settings>
